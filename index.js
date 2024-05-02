@@ -4,10 +4,10 @@ var express = require("express");
 var bodyParser = require("body-parser");
 
 const { DEV, DEBUG, FULL_CONFIG, PORT } = require("./config/config");
-const Logger = require("./Logger");
+const { closeDB } = require("./Database");
+const LoggerInstance = require("./Logger");
 const onMessage = require("./events/onMessage");
-
-const BotLogger = new Logger();
+const onDbReady = require("./events/onDbReady");
 
 var app = express();
 
@@ -17,15 +17,17 @@ app.use(express.static("images"));
 // init framework
 var framework = new framework(FULL_CONFIG);
 framework.start();
-console.log("%c 🤖 Starting framework, please wait...", "color: #eb4034");
+console.log(`%c 🤖 Starting framework, please wait...`, "color: #eb4034");
 
 framework.on("initialized", () => {
+  onDbReady();
+
   if (DEV)
     console.log(
-      "%c framework is all fired up! [Press CTRL-C to quit]",
+      `%c 🤖 framework is all fired up! [Press CTRL-C to quit]`,
       "color: #eb4034"
     );
-  else BotLogger.log("Framework initialized successfully !");
+  else LoggerInstance.log("Framework initialized successfully !");
 
   onMessage(framework);
 });
@@ -53,6 +55,7 @@ process.on("SIGINT", () => {
   framework.debug("stopping...");
   server.close();
   framework.stop().then(() => {
+    closeDB();
     process.exit();
   });
 });

@@ -1,0 +1,59 @@
+const LoggerInstance = require("./Logger");
+const { DEV } = require("./config/config");
+
+const sqlite3 = require("sqlite3").verbose();
+
+// Connect to the database
+const db = new sqlite3.Database("database.db", (err) => {
+  if (err) {
+    if (DEV) console.error("Error connecting to the database:", err.message);
+    else
+      LoggerInstance.logError("Error connecting to the database:", err.message);
+  }
+});
+
+const createTable = () => {
+  return new Promise((res, rej) => {
+    // Create a table
+    db.serialize(() => {
+      db.run(
+        `CREATE TABLE IF NOT EXISTS users (
+    id VARCHAR(255) PRIMARY KEY NOT NULL,
+    firstName VARCHAR(60) NOT NULL,
+    lastName VARCHAR(60) NOT NULL,
+    pointed BOOLEAN NOT NULL DEFAULT 0
+  )`,
+        (err) => {
+          if (err) return rej(err);
+          else {
+            // Uncomment this block to insert a user in the database
+            // db.run(
+            //   `INSERT INTO users (id, firstName, lastName) VALUES ('1', 'Éric', 'PHILIPPE')`,
+            //   (err) => {
+            //     return err ? rej(err) : res();
+            //   }
+            // );
+
+            return res();
+          }
+        }
+      );
+    });
+  });
+};
+
+const closeDB = () => {
+  db.close((err) => {
+    if (err) {
+      console.error("Error closing the database:", err.message);
+    } else {
+      console.log("Closed the database.");
+    }
+  });
+};
+
+module.exports = {
+  db,
+  createTable,
+  closeDB,
+};

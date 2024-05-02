@@ -1,5 +1,9 @@
 const fs = require("fs");
 
+/**
+ * @class Logger
+ * Logger class to log messages to a file
+ */
 class Logger {
   constructor() {
     this.logFilePath = "./Logs/Logs.log";
@@ -7,11 +11,20 @@ class Logger {
     this.checkAndCreateLogsDirectory();
   }
 
+  /**
+   * Logs a message to the log file
+   * @param {string} message
+   */
   log(message) {
     const formattedMessage = this.formatLogMessage(message);
     this.writeLogToFile(this.logFilePath, formattedMessage);
   }
 
+  /**
+   * Logs an error message to the error log file
+   * @param {string} message
+   * @param {string} exception
+   */
   logError(message, exception) {
     const formattedErrorMessage = this.formatErrorLogMessage(
       message,
@@ -20,12 +33,23 @@ class Logger {
     this.writeLogToFile(this.errorLogFilePath, formattedErrorMessage);
   }
 
+  /**
+   * Formats a log message with the current date
+   * @param {string} message
+   * @returns
+   */
   formatLogMessage(message) {
     const currentDate = new Date();
     const formattedDate = this.formatDate(currentDate);
     return `[INFO] - (${formattedDate}) - ${message}`;
   }
 
+  /**
+   * Formats an error log message with the current date
+   * @param {string} message
+   * @param {string} exception
+   * @returns
+   */
   formatErrorLogMessage(message, exception) {
     const currentDate = new Date();
     const formattedDate = this.formatDate(currentDate);
@@ -33,6 +57,11 @@ class Logger {
     return `[ERROR] - (${formattedDate}) - ${message}${formattedException}`;
   }
 
+  /**
+   * Formats a date to a string
+   * @param {Date} date
+   * @returns
+   */
   formatDate(date) {
     const hours = this.padZero(date.getHours());
     const minutes = this.padZero(date.getMinutes());
@@ -43,16 +72,29 @@ class Logger {
     return `${hours}:${minutes}:${seconds} ${day}/${month}/${year}`;
   }
 
+  /**
+   * Pads a number with a zero if it's less than 10
+   * @param {number} value
+   * @returns
+   */
   padZero(value) {
     return value < 10 ? "0" + value : value;
   }
 
+  /**
+   * Writes a message to a file
+   * @param {string} filePath
+   * @param {string} message
+   */
   writeLogToFile(filePath, message) {
     fs.appendFile(filePath, message + "\n", (err) => {
       if (err) throw err;
     });
   }
 
+  /**
+   * Checks if the Logs directory exists and creates it if it doesn't
+   */
   checkAndCreateLogsDirectory() {
     if (!fs.existsSync("Logs")) {
       fs.mkdirSync("Logs");
@@ -66,4 +108,7 @@ class Logger {
   }
 }
 
-module.exports = Logger;
+/** @type {Logger} - New Opened Instance */
+const LoggerInstance = new Logger();
+
+module.exports = LoggerInstance;
