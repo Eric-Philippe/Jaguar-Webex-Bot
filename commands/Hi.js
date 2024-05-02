@@ -19,9 +19,10 @@ const HI_EMOTES = ["✨", "🤩", "", "🌟", "🌝", "🙂", "👀"];
 /** @type {import("./Commands").Command} */
 const hi = {
   name: "hi",
+  emote: "👋",
   regex: /hi|salut|hello|bonjour/i,
   cmd: "hi",
-  description: "**Hi**: Saluer le bot.",
+  description: "Saluer le bot.",
   priority: 0,
   /**
    * @param {Bot} bot

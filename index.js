@@ -6,8 +6,8 @@ var bodyParser = require("body-parser");
 const { DEV, DEBUG, FULL_CONFIG, PORT } = require("./config/config");
 const { closeDB } = require("./Database");
 const LoggerInstance = require("./Logger");
-const onMessage = require("./events/onMessage");
 const onDbReady = require("./events/onDbReady");
+const subscribeEvents = require("./events/Events");
 
 var app = express();
 
@@ -29,7 +29,7 @@ framework.on("initialized", () => {
     );
   else LoggerInstance.log("Framework initialized successfully !");
 
-  onMessage(framework);
+  subscribeEvents(framework);
 });
 
 // framework.on("spawn", (bot, id, actorId) => {});

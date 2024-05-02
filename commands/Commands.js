@@ -1,6 +1,5 @@
 const ping = require("./Ping");
 const info = require("./Info");
-const saysHi = require("./SaysHi");
 const hi = require("./Hi");
 const test = require("./Test");
 const help = require("./Help");
@@ -8,6 +7,7 @@ const help = require("./Help");
 /**
  * @typedef {Object} Command
  * @property {string} name - The name of the command
+ * @property {string} emote - The emote of the command
  * @property {string | null} cmd - The command to trigger the command
  * @property {string | null} alias - The alias of the command
  * @property {RegExp | null} regex - If the command input is a regex
@@ -20,7 +20,7 @@ const help = require("./Help");
  * List of commands
  * @type {Command[]}
  */
-const Commands = [ping, info, saysHi, hi, test, help];
+const Commands = [ping, info, hi, test, help];
 
 // If one command does not have either a cmd or a regex, it will not be added to the list of commands and raise an error
 Commands.forEach((cmd) => {

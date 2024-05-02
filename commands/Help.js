@@ -1,27 +1,12 @@
-const cardJSON = {
-  $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
-  type: "AdaptiveCard",
-  version: "1.0",
-  body: [
-    {
-      type: "ColumnSet",
-      columns: [
-        {
-          type: "Column",
-          width: "5",
-          items: [],
-        },
-      ],
-    },
-  ],
-};
+const EmbedBuilder = require("../Embed");
 
 /** @type {import("./Commands").Command} */
 const help = {
   name: "help",
+  emote: "❓",
   alias: "h",
   cmd: "help",
-  description: "**Help**: Affiche la liste des commandes disponibles.",
+  description: "Affiche la liste des commandes disponibles.",
   priority: 999,
   /**
    * @param {Bot} bot
@@ -29,28 +14,24 @@ const help = {
    */
   handler: (bot, trigger) => {
     const Commands = require("./Commands");
-    for (let i = 0; i < Commands.length; i++) {
-      let command = Commands[i];
-      if (command.cmd) {
-        cardJSON.body[0].columns[0].items.push({
-          type: "TextBlock",
-          text: `[${i + 1}] : ${command.description} : \`${command.cmd}\``,
-          size: "medium",
-          horizontalAlignment: "Left",
-          wrap: true,
-        });
-      }
-    }
 
-    bot.say("markdown", "## Commandes disponibles :");
-    bot.sendCard(
-      cardJSON,
-      "Une erreur est survenue lors de l'affichage des commandes. Merci de réessayer plus tard."
-    );
-    bot.say(
-      "markdown",
-      "> Pour exécuter une commande, mentionnez le bot suivi de la commande."
-    );
+    const keyValuesCommands = Commands.map((cmd) => {
+      return {
+        key: `${cmd.emote} - ${cmd.name}`,
+        value: cmd.description,
+      };
+    });
+
+    const username = trigger.person.firstName + " " + trigger.person.lastName;
+
+    const embed = new EmbedBuilder()
+      .setTitle("📂 - Liste des commandes")
+      .setAuthor("Jaguar Bot", username, bot.person.avatar)
+      .setDescription("Voici la liste des commandes disponibles :")
+      .addListElements(keyValuesCommands)
+      .setFooter("Lancer une commande avec @Jaguar <commande>");
+
+    bot.sendCard(embed.toJSON(), "adaptiveCard");
   },
 };
 

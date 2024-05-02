@@ -1,9 +1,10 @@
 /** @type {import("./Commands").Command} */
 const ping = {
   name: "ping",
+  emote: "🏓",
   alias: "p",
   cmd: "ping",
-  description: "**Ping**: Commencer une partie de ping-pong",
+  description: "Commencer une partie de ping-pong",
   priority: 0,
   /**
    * @param {Bot} bot

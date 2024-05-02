@@ -42,9 +42,10 @@ const cardJSON = {
 /** @type {import("./Commands").Command} */
 const info = {
   name: "info",
+  emote: "📇",
   alias: "i",
   cmd: "info",
-  description: "**Info**: Dessiner une carte à votre propos !",
+  description: "Dessiner une carte à votre propos !",
   priority: 0,
   /**
    * @param {Bot} bot
