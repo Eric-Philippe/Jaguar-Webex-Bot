@@ -75,6 +75,7 @@ const getUser = (id) => {
     db.get(`SELECT * FROM users WHERE id = ?`, [id], (err, row) => {
       if (err) return rej(err);
       else {
+        if (!row) return res(null);
         let user = new User(row.id, row.firstName, row.lastName, row.pointed);
         return res(user);
       }
