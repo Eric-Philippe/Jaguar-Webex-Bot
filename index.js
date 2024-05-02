@@ -1,8 +1,10 @@
+/** @DEPENDENCIES */
 var framework = require("webex-node-bot-framework");
 var webhook = require("webex-node-bot-framework/webhook");
 var express = require("express");
 var bodyParser = require("body-parser");
 
+/** @CLASSES_AND_METHODS */
 const { DEV, DEBUG, FULL_CONFIG, PORT } = require("./config/config");
 const { closeDB } = require("./Database");
 const LoggerInstance = require("./Logger");
@@ -31,8 +33,6 @@ framework.on("initialized", () => {
 
   subscribeEvents(framework);
 });
-
-// framework.on("spawn", (bot, id, actorId) => {});
 
 framework.on("log", (msg) => {
   if (DEBUG) console.log(msg);

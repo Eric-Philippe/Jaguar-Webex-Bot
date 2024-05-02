@@ -3,13 +3,16 @@
  * @description A class to build an adaptive card JSON object
  */
 module.exports = class EmbedBuilder {
-  /**
-   * @constructor Create a new EmbedBuilder
-   */
+  /** @constructor Create a new EmbedBuilder */
   constructor() {
     this.json = EmbedBuilder.getJsonTemplate();
   }
 
+  /**
+   * @description Get the JSON template of an adaptive card
+   * @warning Working with a JSON const makes the const changeable, so we need to create a new object each time we want to use it
+   * @returns {Object} The JSON template of an adaptive card
+   */
   static getJsonTemplate() {
     return {
       $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -39,7 +42,7 @@ module.exports = class EmbedBuilder {
   setTitle(title) {
     let titleItem = { ...TITLE_ITEM_TEMPLATE };
     titleItem.text = title;
-    this.setOnHeader(titleItem);
+    this.#setOnHeader(titleItem);
     return this;
   }
 
@@ -55,7 +58,7 @@ module.exports = class EmbedBuilder {
     authorItem.columns[1].items[0].text = author;
     authorItem.columns[1].items[1].text = subText;
     authorItem.columns[0].items[0].url = imageUrl;
-    this.setOnHeader(authorItem);
+    this.#setOnHeader(authorItem);
     return this;
   }
 
@@ -67,7 +70,7 @@ module.exports = class EmbedBuilder {
   setDescription(description) {
     let descriptionItem = { ...DESCRIPTION_ITEM_TEMPLATE };
     descriptionItem.text = description;
-    this.setOnBody(descriptionItem);
+    this.#setOnBody(descriptionItem);
     return this;
   }
 
@@ -83,7 +86,7 @@ module.exports = class EmbedBuilder {
         value: item.value,
       };
     });
-    this.setOnBody(listItem);
+    this.#setOnBody(listItem);
     return this;
   }
 
@@ -96,7 +99,7 @@ module.exports = class EmbedBuilder {
   addLinkElement(description, url) {
     let linkItem = { ...LINK_ITEM_TEMPLATE };
     linkItem.columns[1].items[0].text = `[${description}](${url})`;
-    this.setOnBody(linkItem);
+    this.#setOnBody(linkItem);
     return this;
   }
 
@@ -125,11 +128,11 @@ module.exports = class EmbedBuilder {
     return this;
   }
 
-  setOnHeader(jsonObj) {
+  #setOnHeader(jsonObj) {
     this.json.body[0].items.push(jsonObj);
   }
 
-  setOnBody(jsonObj) {
+  #setOnBody(jsonObj) {
     this.json.body[1].items.push(jsonObj);
   }
 

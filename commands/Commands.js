@@ -5,6 +5,8 @@ const test = require("./Test");
 const help = require("./Help");
 const addToBox = require("./AddToBox");
 const getListUserBox = require("./GetListUserBox");
+const removeFromBox = require("./RemoveFromBox");
+const getCurrentBox = require("./CurrentBox");
 
 /**
  * @typedef {Object} Command
@@ -22,14 +24,12 @@ const getListUserBox = require("./GetListUserBox");
  * List of commands
  * @type {Command[]}
  */
-const Commands = [ping, info, hi, test, help, addToBox, getListUserBox];
+const Commands = [ping, info, hi, test, help, addToBox, getListUserBox, removeFromBox, getCurrentBox];
 
 // If one command does not have either a cmd or a regex, it will not be added to the list of commands and raise an error
 Commands.forEach((cmd) => {
   if (!cmd.cmd && !cmd.regex) {
-    throw new Error(
-      `Command ${cmd.name} does not have a cmd or a regex and can't be called.`
-    );
+    throw new Error(`Command ${cmd.name} does not have a cmd or a regex and can't be called.`);
   }
 });
 

@@ -16,6 +16,7 @@ class CustomConfig {
   }
 
   /**
+   * Get the time of the annoucement
    * @returns {string} The time of the annoucement
    */
   getAnnoucementTime() {
@@ -23,6 +24,7 @@ class CustomConfig {
   }
 
   /**
+   * Get the order of the announcements
    * @returns {'ASC' | 'DESC'} The order of the announcements
    */
   getOrder() {
@@ -57,6 +59,9 @@ class CustomConfig {
     return await this.saveToJson();
   }
 
+  /**
+   * Save the current configuration to the config.json file
+   */
   async saveToJson() {
     const data = JSON.stringify(
       {

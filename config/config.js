@@ -13,12 +13,9 @@ if (!WEBHOOKURL || !TOKEN || !PORT || !MAIN_GROUPID) {
 }
 
 const booleans = ["true", "false"];
-// if dev is null then set it to false
-// If dev is not "true" or "false" then set it to false
-// Otherwise convert it to a boolean
+
 DEV = DEV == null ? false : !booleans.includes(DEV) ? false : DEV === "true";
-DEBUG =
-  DEBUG == null ? false : !booleans.includes(DEBUG) ? false : DEBUG === "true";
+DEBUG = DEBUG == null ? false : !booleans.includes(DEBUG) ? false : DEBUG === "true";
 
 const FULL_CONFIG = {
   webhookUrl: WEBHOOKURL,

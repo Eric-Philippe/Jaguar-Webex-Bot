@@ -29,9 +29,9 @@ const hi = {
    * @param {Trigger} trigger
    */
   handler: (bot, trigger) => {
-    const randomAnswer =
-      HI_ANSWERS[Math.floor(Math.random() * HI_ANSWERS.length)];
+    const randomAnswer = HI_ANSWERS[Math.floor(Math.random() * HI_ANSWERS.length)];
     const randomEmote = HI_EMOTES[Math.floor(Math.random() * HI_EMOTES.length)];
+
     bot.say(`${randomEmote} ${randomAnswer} ${trigger.person.displayName} !`);
   },
 };

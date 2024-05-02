@@ -1,14 +1,14 @@
-const LoggerInstance = require("./Logger");
+const sqlite3 = require("sqlite3").verbose();
+
 const { DEV } = require("./config/config");
 
-const sqlite3 = require("sqlite3").verbose();
+const LoggerInstance = require("./Logger");
 
 // Connect to the database
 const db = new sqlite3.Database("database.db", (err) => {
   if (err) {
     if (DEV) console.error("Error connecting to the database:", err.message);
-    else
-      LoggerInstance.logError("Error connecting to the database:", err.message);
+    else LoggerInstance.logError("Error connecting to the database:", err.message);
   }
 });
 
@@ -26,7 +26,7 @@ const createTable = () => {
         (err) => {
           if (err) return rej(err);
           else {
-            // Uncomment this block to insert a user in the database
+            // Uncomment this block to make any initial inserts / changes to the database
             // db.run(
             //   `INSERT INTO users (id, firstName, lastName) VALUES ('1', 'Éric', 'PHILIPPE')`,
             //   (err) => {

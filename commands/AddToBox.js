@@ -1,12 +1,11 @@
-const { getUser, createUser } = require("../services/UserServices");
+const { getUser, createUser } = require("../services/User/UserServices");
 
 /** @type {import("./Commands").Command} */
 const addToBox = {
   name: "add",
   emote: "📦",
   regex: /^add.*/i,
-  description:
-    "Ajoute un utilisateur a la liste des personnes de la boite commune",
+  description: "Ajoute un utilisateur a la liste des personnes de la boite commune",
   priority: 100,
   /**
    * @param {Bot} bot
@@ -20,27 +19,15 @@ const addToBox = {
     const firstName = args[1];
 
     // Get all the members in the room
-    const members = await bot.webex.memberships
-      .list({ roomId: bot.room.id })
-      .then((memberships) => {
-        return memberships.items.map((membership) => {
-          return {
-            personId: membership.personId,
-            personDisplayName: membership.personDisplayName,
-          };
-        });
-      });
+    const memberships = await bot.webex.memberships.list({
+      roomId: bot.room.id,
+    });
+    const members = memberships.items.map(({ personId, personDisplayName }) => ({ personId, personDisplayName }));
 
     // Find the member in the room
     let member = members.find((member) => {
-      let splittedName = member.personDisplayName.split(", ");
-      if (splittedName.length < 2) return false;
-
-      return (
-        member.personDisplayName
-          .split(", ")[1]
-          .localeCompare(firstName, undefined, { sensitivity: "base" }) == 0
-      );
+      const [lastName, firstName] = member.personDisplayName.split(", ").reverse();
+      return firstName.toLocaleLowerCase() === lastName.toLocaleLowerCase();
     });
 
     if (!member) return bot.say("❌ | Utilisateur non trouvé !");
@@ -50,15 +37,11 @@ const addToBox = {
     // Get the user from the database
     let user = await getUser(member.personId);
     if (user)
-      return bot.say(
-        `❌ | L'Utilisateur ${firstName} ${lastName} est déjà dans la liste pour la boite commune !`
-      );
+      return bot.say(`❌ | L'Utilisateur ${firstName} ${lastName} est déjà dans la liste pour la boite commune !`);
 
     user = await createUser(member.personId, firstName, lastName);
 
-    bot.say(
-      `✅ | ${user.firstName} ${user.lastName} a bien été ajouté à la liste pour la boite commune !`
-    );
+    bot.say(`✅ | ${user.firstName} ${user.lastName} a bien été ajouté à la liste pour la boite commune !`);
   },
 };
 
