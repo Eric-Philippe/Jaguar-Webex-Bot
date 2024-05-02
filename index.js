@@ -17,10 +17,14 @@ app.use(express.static("images"));
 // init framework
 var framework = new framework(FULL_CONFIG);
 framework.start();
-console.log("Starting framework, please wait...");
+console.log("%c 🤖 Starting framework, please wait...", "color: #eb4034");
 
 framework.on("initialized", () => {
-  if (DEV) console.log("framework is all fired up! [Press CTRL-C to quit]");
+  if (DEV)
+    console.log(
+      "%c framework is all fired up! [Press CTRL-C to quit]",
+      "color: #eb4034"
+    );
   else BotLogger.log("Framework initialized successfully !");
 
   onMessage(framework);
