@@ -1,0 +1,5 @@
+- Self assign Command
+- Regarder pour rendre les cartes plus larges
+- Remove member from box
+- Current person for the today box
+- Everyday system
