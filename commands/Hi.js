@@ -20,8 +20,8 @@ const HI_EMOTES = ["✨", "🤩", "", "🌟", "🌝", "🙂", "👀"];
 const hi = {
   name: "hi",
   regex: /hi|salut|hello|bonjour/i,
-  cmd: "test",
-  description: "**Test**: Me testing things",
+  cmd: "hi",
+  description: "**Hi**: Saluer le bot.",
   priority: 0,
   /**
    * @param {Bot} bot
