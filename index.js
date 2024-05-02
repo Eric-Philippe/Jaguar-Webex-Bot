@@ -1,41 +1,38 @@
-require("dotenv").config();
-
 var framework = require("webex-node-bot-framework");
 var webhook = require("webex-node-bot-framework/webhook");
 var express = require("express");
 var bodyParser = require("body-parser");
+
+const { DEV, DEBUG, FULL_CONFIG, PORT } = require("./config/config");
+const Commands = require("./commands/Commands");
+const Logger = require("./Logger");
+
+const BotLogger = new Logger();
 
 var app = express();
 
 app.use(bodyParser.json());
 app.use(express.static("images"));
 
-const config = {
-  webhookUrl: process.env.WEBHOOKURL,
-  token: process.env.BOTTOKEN,
-  port: process.env.PORT,
-  dev: process.env.DEV,
-  debug: process.env.DEBUG,
-};
-
-const Commands = require("./commands/Commands");
-
-const MENTION_REGEX = /(webexteams:\/\/im?(.*)\s)(.*)/;
+// Change Jaguar to your bot's name
+const MENTION_REGEX = /((webexteams:\/\/im?(.*)\s)|(Jaguar\s))(.*)/;
 
 // init framework
-var framework = new framework(config);
+var framework = new framework(FULL_CONFIG);
 framework.start();
 console.log("Starting framework, please wait...");
 
 framework.on("initialized", () => {
-  console.log("framework is all fired up! [Press CTRL-C to quit]");
-  console.log(`Bot loaded up ${Commands.length} commands !`);
+  if (DEV) {
+    console.log("framework is all fired up! [Press CTRL-C to quit]");
+    console.log(`Bot loaded up ${Commands.length} commands !`);
+  } else BotLogger.log("Framework initialized successfully !");
 });
 
 // framework.on("spawn", (bot, id, actorId) => {});
 
 framework.on("log", (msg) => {
-  if (config.debug == null || config.debug == "true") console.log(msg);
+  if (DEBUG) console.log(msg);
 });
 
 // Process incoming messages
@@ -53,7 +50,13 @@ framework.hears(MENTION_REGEX, (bot, trigger) => {
   if (trigger.args.length <= 1) return;
   const command = trigger.args.slice(1).join(" ");
 
-  const cmd = Commands.find((c) => c.cmd === command || c.alias === command);
+  // All the commands are already sorted by priority
+  // If the user enters a command that can be matched by multiple commands, the one with the highest priority will be executed
+  const cmd = Commands.find((c) => {
+    if (c.cmd && c.cmd.toLowerCase() === command.toLowerCase()) return c;
+    if (c.alias && c.alias.toLowerCase() === command.toLowerCase()) return c;
+    if (c.regex && c.regex.test(command)) return c;
+  });
 
   if (!cmd) {
     bot.say("Je ne comprends pas cette commande.");
@@ -76,8 +79,8 @@ app.get("/", (req, res) => {
 
 app.post("/", webhook(framework));
 
-var server = app.listen(config.port, () => {
-  framework.debug("framework listening on port %s", config.port);
+var server = app.listen(PORT, () => {
+  framework.debug("framework listening on port %s", PORT);
 });
 
 // gracefully shutdown (ctrl-c)

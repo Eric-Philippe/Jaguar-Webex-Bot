@@ -1,14 +1,15 @@
 {
-  "name": "Webex-Bot-Starter",
+  "name": "webex-bot-jaguar",
   "version": "1.0.0",
   "description": "Starter template for creating a Webex Teams bot",
   "main": "index.js",
   "scripts": {
-    "start": "npm install && node --use_strict index.js"
+    "start": "npm install && node --use_strict index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tbd/webexbotstarter.git"
+    "url": "git+https://github.com/Eric-Philippe/Jaguar-Webex-Bot.git"
   },
   "keywords": [
     "Cisco",
@@ -18,9 +19,8 @@
   "author": "Phil Bellanti",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tbd/webexbotstarter/issues"
+    "url": "https://github.com/Eric-Philippe/Jaguar-Webex-Bot/issues"
   },
-  "homepage": "https://github.com/tbd/webexbotstarter#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
     "dotenv": "^16.0.3",
@@ -28,6 +28,7 @@
     "webex-node-bot-framework": "^2.3.14"
   },
   "devDependencies": {
+    "nodemon": "^3.1.0",
     "prettier": "2.7.1"
   }
 }

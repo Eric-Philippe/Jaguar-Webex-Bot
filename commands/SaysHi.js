@@ -6,6 +6,10 @@ const saysHi = {
   description:
     "**dis bonjour à tout le monde**: (tout le monde reçoit un salut en utilisant un appel à l'API Webex)",
   priority: 0,
+  /**
+   * @param {Bot} bot
+   * @param {Trigger} trigger
+   */
   handler: (bot, trigger) => {
     bot.webex.memberships
       .list({ roomId: bot.room.id })

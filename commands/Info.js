@@ -46,6 +46,10 @@ const info = {
   cmd: "info",
   description: "**Info**: Dessiner une carte à votre propos !",
   priority: 0,
+  /**
+   * @param {Bot} bot
+   * @param {Trigger} trigger
+   */
   handler: (bot, trigger) => {
     let avatar = trigger.person.avatar;
 
