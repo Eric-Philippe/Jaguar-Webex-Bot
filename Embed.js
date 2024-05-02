@@ -7,7 +7,28 @@ module.exports = class EmbedBuilder {
    * @constructor Create a new EmbedBuilder
    */
   constructor() {
-    this.json = JSON_TEMPLATE;
+    this.json = EmbedBuilder.getJsonTemplate();
+  }
+
+  static getJsonTemplate() {
+    return {
+      $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+      type: "AdaptiveCard",
+      version: "1.3",
+      body: [
+        {
+          type: "Container",
+          items: [],
+          $part: "header",
+        },
+        {
+          type: "Container",
+          items: [],
+          $part: "body",
+        },
+      ],
+      actions: [],
+    };
   }
 
   /**
@@ -219,25 +240,6 @@ const FOOTER_TEMPLATE = {
   wrap: true,
   size: "small",
   $part: "footer",
-};
-
-const JSON_TEMPLATE = {
-  $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
-  type: "AdaptiveCard",
-  version: "1.3",
-  body: [
-    {
-      type: "Container",
-      items: [],
-      $part: "header",
-    },
-    {
-      type: "Container",
-      items: [],
-      $part: "body",
-    },
-  ],
-  actions: [],
 };
 
 /**

@@ -2,7 +2,7 @@ const { getUser, createUser } = require("../services/UserServices");
 
 /** @type {import("./Commands").Command} */
 const addToBox = {
-  name: "Ajouter à la boite",
+  name: "add",
   emote: "📦",
   regex: /^add.*/i,
   description:

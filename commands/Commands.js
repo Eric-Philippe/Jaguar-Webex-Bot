@@ -4,6 +4,7 @@ const hi = require("./Hi");
 const test = require("./Test");
 const help = require("./Help");
 const addToBox = require("./AddToBox");
+const getListUserBox = require("./GetListUserBox");
 
 /**
  * @typedef {Object} Command
@@ -21,7 +22,7 @@ const addToBox = require("./AddToBox");
  * List of commands
  * @type {Command[]}
  */
-const Commands = [ping, info, hi, test, help, addToBox];
+const Commands = [ping, info, hi, test, help, addToBox, getListUserBox];
 
 // If one command does not have either a cmd or a regex, it will not be added to the list of commands and raise an error
 Commands.forEach((cmd) => {
