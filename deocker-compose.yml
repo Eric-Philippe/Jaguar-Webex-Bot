@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  ngrok:
+    image: wernight/ngrok
+    ports:
+    - "4040:4040" # Port pour l'interface web de ngrok
+    command: ngrok http 3000 --region=eu
+
+  webex-bot:
+    build: .
+    ports:
+    - "3000:3000" # Port pour le bot Webex
+    depends_on:
+    - ngrok
+    command: npm start
