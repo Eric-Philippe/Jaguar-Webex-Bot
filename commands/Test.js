@@ -1,19 +1,17 @@
 /** @type {import("./Commands").Command} */
-const hi = {
-  name: "hi",
-  regex: /hi|salut|hello|bonjour/,
+const test = {
+  name: "test",
+  alias: "t",
   cmd: "test",
-  description: "**Test**: Me testing things",
+  description: "**Test**: Just me minding my own business",
   priority: 0,
   /**
    * @param {Bot} bot
    * @param {Trigger} trigger
    */
   handler: (bot, trigger) => {
-    let t = /hi/i;
-    console.log(bot);
-    bot.say("markdown", "Hi.");
+    bot.say("markdown", "Test");
   },
 };
 
-module.exports = hi;
+module.exports = test;
