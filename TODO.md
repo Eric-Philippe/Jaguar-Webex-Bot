@@ -23,7 +23,6 @@
 - [x] Implement the Logger feature
 - [x] Fill the Types.js file with the necessary types for easier development and maintenance
 - [x] Implement an EmbedBuilder class from the Card Json structure from the Webex API
-- - [ ] Try if I can send the embeds to the Webex API without calling the toJSON() method
 
 ## Features
 

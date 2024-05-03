@@ -31,7 +31,7 @@ const help = {
       .addListElements(keyValuesCommands)
       .setFooter("Lancer une commande avec @Jaguar <commande>");
 
-    bot.sendCard(embed.toJSON(), "adaptiveCard");
+    bot.sendCard(embed, "adaptiveCard");
   },
 };
 

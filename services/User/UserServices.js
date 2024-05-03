@@ -1,4 +1,5 @@
 const { db } = require("../../Database");
+const User = require("./User");
 
 module.exports = class UserServices {
   /**
@@ -10,14 +11,10 @@ module.exports = class UserServices {
    */
   static async createUser(id, firstName, lastName) {
     return new Promise((res, rej) => {
-      db.run(
-        `INSERT INTO users (id, firstName, lastName) VALUES (?, ?, ?)`,
-        [id, firstName, lastName],
-        (err) => {
-          if (err) return rej(err);
-          else return res(new User(id, firstName, lastName));
-        }
-      );
+      db.run(`INSERT INTO users (id, firstName, lastName) VALUES (?, ?, ?)`, [id, firstName, lastName], (err) => {
+        if (err) return rej(err);
+        else return res(new User(id, firstName, lastName));
+      });
     });
   }
 
@@ -84,13 +81,9 @@ module.exports = class UserServices {
    */
   static async setPointed(id, pointed) {
     return new Promise((res, rej) => {
-      db.run(
-        `UPDATE users SET pointed = ? WHERE id = ?`,
-        [pointed, id],
-        (err) => {
-          return err ? rej(err) : res();
-        }
-      );
+      db.run(`UPDATE users SET pointed = ? WHERE id = ?`, [pointed, id], (err) => {
+        return err ? rej(err) : res();
+      });
     });
   }
 

@@ -26,8 +26,7 @@ const addToBox = {
 
     // Find the member in the room
     let member = members.find((member) => {
-      const [lastName, firstName] = member.personDisplayName.split(", ").reverse();
-      return firstName.toLocaleLowerCase() === lastName.toLocaleLowerCase();
+      return member.personDisplayName.toLowerCase().includes(firstName.toLowerCase());
     });
 
     if (!member) return bot.say("❌ | Utilisateur non trouvé !");

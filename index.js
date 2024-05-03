@@ -24,11 +24,7 @@ console.log(`%c 🤖 Starting framework, please wait...`, "color: #eb4034");
 framework.on("initialized", () => {
   onDbReady();
 
-  if (DEV)
-    console.log(
-      `%c 🤖 framework is all fired up! [Press CTRL-C to quit]`,
-      "color: #eb4034"
-    );
+  if (DEV) console.log(`%c 🤖 framework is all fired up! [Press CTRL-C to quit]`, "color: #eb4034");
   else LoggerInstance.log("Framework initialized successfully !");
 
   subscribeEvents(framework);

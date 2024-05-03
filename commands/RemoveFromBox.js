@@ -1,4 +1,5 @@
 const { getUser } = require("../services/User/UserServices");
+const UserServices = require("../services/User/UserServices");
 
 /** @type {import("./Commands").Command} */
 const removeFromBox = {
@@ -47,7 +48,7 @@ const removeFromBox = {
         `❌ | L'Utilisateur ${firstName} ${lastName} n'est pas dans la liste pour la boite commune ! Merci de l'ajouter avec la commande \`add\` !`
       );
 
-    user.delete();
+    UserServices.deleteUser(user.id);
 
     bot.say(`✅ | ${user.firstName} ${user.lastName} a bien été retiré à la liste pour la boite commune !`);
   },

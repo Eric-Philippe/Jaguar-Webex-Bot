@@ -15,10 +15,9 @@ const getListUserBox = {
   handler: async (bot, trigger) => {
     const users = await getUsers();
     if (users.length === 0) return bot.say("❌ | Aucun utilisateur dans la liste de la boite commune !");
-
     const keyValues = users.map((user) => {
       return {
-        key: `👤 - ${user.firstName} ${user.lastName}`,
+        key: `👤 - ${user.firstName} ${user.lastName.toUpperCase()}`,
         value: user.personId ? "🔵" : "",
       };
     });
