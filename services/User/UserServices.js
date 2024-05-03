@@ -51,13 +51,14 @@ module.exports = class UserServices {
 
   /**
    * Get all users from the database
-   * @returns {Promise<User[]>} The users
+   * @returns {Promise<User[]|null>} The users
    */
   static async getUsers() {
     return new Promise((res, rej) => {
       db.all(`SELECT * FROM users`, (err, rows) => {
         if (err) return rej(err);
         else {
+          if (rows.length === 0) return res(null);
           let users = rows.map((row) => {
             return new User(row.id, row.firstName, row.lastName, row.pointed);
           });

@@ -30,6 +30,7 @@
 - [x] Implement the `Hi` command for learning more about the basic message answering
 - [x] Implement the `Info` command to learning more about Cards from the Webex API
 - [x] Implement the `Help` command to show the available commands
+- [ ] Implement a deeper `Help <command>` command to show the help for a specific command
 
 ### Common Box Features
 
@@ -39,9 +40,10 @@
 - [x] Implement the `RemoveFromBox` command to remove a user from the box -> TO BE TESTED
 - [x] Implement the `Box` command to show the current user to interact with the box -> TO BE TESTED
 - [x] Implement the `BoxList` command to show all the users able to interact with the box
-- [ ] Implement the `Next` command to set the next user able to interact with the box
-- [ ] Implement the `Previous` command to set the previous user able to interact with the box
+- [x] Implement the `Next` command to set the next user able to interact with the box
+- [x] Implement the `Previous` command to set the previous user able to interact with the box
 - [x] Implement the `Assign` command to assign a specific user to interact with the box
+- [x] Implement the `Today` command to show the user able to interact with the box today
 - [ ] Implement the `ChangeTime` command to change the time of the announcement of the box
 - [ ] Implement the `ChangeDirection` command to change the direction of the distribution of the box (chance the ASC/DESC in the dynamic configuration)
 - [ ] Implement the Announcement feature to announce the next user able to interact with the box every working day at a specific time

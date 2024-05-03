@@ -17,7 +17,7 @@ const getListUserBox = {
     const keyValues = users.map((user) => {
       return {
         key: `👤 - ${user.firstName} ${user.lastName.toUpperCase()}`,
-        value: user.personId ? "🔵" : "",
+        value: user.pointed ? "🔵" : "",
       };
     });
 

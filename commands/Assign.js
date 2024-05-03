@@ -1,5 +1,3 @@
-const EmbedBuilder = require("../utils/Embed");
-const { getUsers } = require("../services/User/UserServices");
 const Utils = require("../utils/Utils");
 const UserServices = require("../services/User/UserServices");
 
