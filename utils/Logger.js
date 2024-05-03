@@ -26,10 +26,7 @@ class Logger {
    * @param {string} exception
    */
   logError(message, exception) {
-    const formattedErrorMessage = this.formatErrorLogMessage(
-      message,
-      exception
-    );
+    const formattedErrorMessage = this.formatErrorLogMessage(message, exception);
     this.writeLogToFile(this.errorLogFilePath, formattedErrorMessage);
   }
 
@@ -87,7 +84,7 @@ class Logger {
    * @param {string} message
    */
   writeLogToFile(filePath, message) {
-    fs.appendFile(filePath, message + "\n", (err) => {
+    fs.appendFile(filePath, "\n" + message, (err) => {
       if (err) throw err;
     });
   }

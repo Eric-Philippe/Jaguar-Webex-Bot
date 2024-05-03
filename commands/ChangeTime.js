@@ -1,4 +1,6 @@
 const configInstance = require("../config/CustomConfig");
+const ActionListeners = require("../utils/ActionListener");
+const LoggerInstance = require("../utils/Logger");
 
 const EMBED_JSON_TEMPLATE = {
   $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -20,8 +22,6 @@ const EMBED_JSON_TEMPLATE = {
       type: "Input.Time",
       label: "Merci de séléctionner une heure :",
       id: "time",
-      min: "08:00",
-      max: "19:00",
       value: "09:00",
       isRequired: true,
       separator: true,
@@ -47,12 +47,21 @@ const changeTime = {
    * @param {Bot} bot
    * @param {Trigger} trigger
    */
-  handler: (bot, trigger) => {
+  handler: async (bot, trigger) => {
     const currentTime = configInstance.getAnnoucementTime();
     // Copy the JSON to avoid modifying the original
     const embedJson = JSON.parse(JSON.stringify(EMBED_JSON_TEMPLATE));
     embedJson.body[1].value = currentTime;
-    bot.sendCard(embedJson, "This is customizable fallback text for clients that do not support buttons & cards");
+    const msg = await bot.sendCard(
+      embedJson,
+      "This is customizable fallback text for clients that do not support buttons & cards"
+    );
+
+    ActionListeners.createNewListener(msg.id, async (bot, trigger, inputs) => {
+      await configInstance.setAnnoucementTime(inputs.time);
+      await bot.reply(trigger.attachmentAction, `L'heure de l'annonce a été changée pour ${inputs.time} !`);
+      LoggerInstance.log(`L'heure de l'annonce a été changée pour ${inputs.time} !`);
+    });
   },
 };
 

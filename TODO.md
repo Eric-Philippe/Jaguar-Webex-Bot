@@ -23,6 +23,7 @@
 - [x] Implement the Logger feature
 - [x] Fill the Types.js file with the necessary types for easier development and maintenance
 - [x] Implement an EmbedBuilder class from the Card Json structure from the Webex API
+- [x] Implement an Submit.Action Listener to handle the actions from the Cards easily `ActionListener.js`
 
 ## Features
 
@@ -44,12 +45,12 @@
 - [x] Implement the `Previous` command to set the previous user able to interact with the box
 - [x] Implement the `Assign` command to assign a specific user to interact with the box
 - [x] Implement the `Today` command to show the user able to interact with the box today
-- [ ] Implement the `ChangeTime` command to change the time of the announcement of the box
+- [x] Implement the `ChangeTime` command to change the time of the announcement of the box
 - - [x] Implement the UI to change the time of the announcement of the box
-- - [ ] Implement the `ChangeTime` command to change the time of the announcement of the box
-- [ ] Implement the `ChangeDirection` command to change the direction of the distribution of the box (chance the ASC/DESC in the dynamic configuration)
+- - [x] Implement the `ChangeTime` command to change the time of the announcement of the box
+- [x] Implement the `ChangeDirection` command to change the direction of the distribution of the box (chance the ASC/DESC in the dynamic configuration)
 - [x] Implement the UI to change the direction of the distribution of the box (chance the ASC/DESC in the dynamic config)
-- [ ] Implement the `ChangeDirection` command to change the direction of the distribution of the box (chance the ASC/DESC in the dynamic config)
+- [x] Implement the `ChangeDirection` command to change the direction of the distribution of the box (chance the ASC/DESC in the dynamic config)
 - [ ] Implement the Announcement feature to announce the next user able to interact with the box every working day at a specific time
 
 ## Documentation
