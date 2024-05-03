@@ -2,6 +2,8 @@ const configInstance = require("../config/CustomConfig");
 const UserServices = require("../services/User/UserServices");
 const User = require("../services/User/User");
 
+const BANK_HOLIDAYS = require("../res/BankHolidays.json");
+
 module.exports = class Utils {
   /**
    * Get a member by name from the webex room
@@ -54,5 +56,17 @@ module.exports = class Utils {
       current: users[currentUserIndex],
       next: users[nextUserIndex],
     };
+  }
+
+  static isTodayABankHoliday() {
+    const today = new Date();
+    const todayString = today.toISOString().split("T")[0];
+
+    const day = BANK_HOLIDAYS[todayString];
+    if (!day) return false;
+
+    if (day === "Lundi de Pentecôte") return false;
+
+    return true;
   }
 };

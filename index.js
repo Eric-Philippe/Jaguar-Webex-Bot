@@ -10,6 +10,8 @@ const { closeDB } = require("./Database");
 const LoggerInstance = require("./utils/Logger");
 const onDbReady = require("./events/onDbReady");
 const subscribeEvents = require("./events/Events");
+const CronScripts = require("./utils/CronScript");
+const { createCronScripts } = require("./scripts/Scripts");
 
 var app = express();
 
@@ -19,15 +21,18 @@ app.use(express.static("images"));
 // init framework
 var framework = new framework(FULL_CONFIG);
 framework.start();
+CronScripts.setFramework(framework);
+
 console.log(`%c 🤖 Starting framework, please wait...`, "color: #eb4034");
 
-framework.on("initialized", () => {
-  onDbReady();
+framework.on("initialized", async () => {
+  await onDbReady();
 
   if (DEV) console.log(`%c 🤖 framework is all fired up! [Press CTRL-C to quit]`, "color: #eb4034");
   else LoggerInstance.log("Framework initialized successfully !");
 
   subscribeEvents(framework);
+  createCronScripts(framework);
 });
 
 framework.on("log", (msg) => {

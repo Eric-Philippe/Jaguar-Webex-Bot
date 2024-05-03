@@ -24,6 +24,7 @@
 - [x] Fill the Types.js file with the necessary types for easier development and maintenance
 - [x] Implement an EmbedBuilder class from the Card Json structure from the Webex API
 - [x] Implement an Submit.Action Listener to handle the actions from the Cards easily `ActionListener.js`
+- [x] Implement a Cron Script Handler to be able to fill the bot with scripts to run at a specific time
 
 ## Features
 
@@ -38,8 +39,8 @@
 > Life cycle for the Common Box feature
 
 - [x] Implement the `AddToBox` command to add a new user able to interact with the box
-- [x] Implement the `RemoveFromBox` command to remove a user from the box -> TO BE TESTED
-- [x] Implement the `Box` command to show the current user to interact with the box -> TO BE TESTED
+- [x] Implement the `RemoveFromBox` command to remove a user from the box
+- [x] Implement the `Box` command to show the current user to interact with the box
 - [x] Implement the `BoxList` command to show all the users able to interact with the box
 - [x] Implement the `Next` command to set the next user able to interact with the box
 - [x] Implement the `Previous` command to set the previous user able to interact with the box
@@ -51,7 +52,10 @@
 - [x] Implement the `ChangeDirection` command to change the direction of the distribution of the box (chance the ASC/DESC in the dynamic configuration)
 - [x] Implement the UI to change the direction of the distribution of the box (chance the ASC/DESC in the dynamic config)
 - [x] Implement the `ChangeDirection` command to change the direction of the distribution of the box (chance the ASC/DESC in the dynamic config)
-- [ ] Implement the Announcement feature to announce the next user able to interact with the box every working day at a specific time
+- [ ] Implement the Announcement feature to announce the next user able to interact with the box every working day at a specific time -> TO BE TESTED
+- - [x] Implement the next() that will be called every day at a specific time before the announcement
+- - [x] Implement the announcement() that will be called every day at a specific time to announce the next user
+- - [x] Add the bank holidays in the script in order not to announce the next user on bank holidays
 
 ## Documentation
 

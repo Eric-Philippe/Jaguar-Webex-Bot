@@ -80,6 +80,4 @@ class CustomConfig {
   }
 }
 
-const configInstance = new CustomConfig();
-
-module.exports = configInstance;
+module.exports = new CustomConfig();

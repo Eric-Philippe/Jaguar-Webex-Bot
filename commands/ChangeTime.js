@@ -1,4 +1,5 @@
 const configInstance = require("../config/CustomConfig");
+const { restartCronScripts } = require("../scripts/Scripts");
 const ActionListeners = require("../utils/ActionListener");
 const LoggerInstance = require("../utils/Logger");
 
@@ -59,6 +60,7 @@ const changeTime = {
 
     ActionListeners.createNewListener(msg.id, async (bot, trigger, inputs) => {
       await configInstance.setAnnoucementTime(inputs.time);
+      restartCronScripts();
       await bot.reply(trigger.attachmentAction, `L'heure de l'annonce a été changée pour ${inputs.time} !`);
       LoggerInstance.log(`L'heure de l'annonce a été changée pour ${inputs.time} !`);
     });
