@@ -4,7 +4,7 @@ const Utils = require("../utils/Utils");
 /** @type {import("./Commands").Command} */
 const today = {
   name: "today",
-  emote: "",
+  emote: "📧",
   alias: "t",
   cmd: "today",
   description: "Afficher la personne s'occupant de la boite commune aujourd'hui",

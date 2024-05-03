@@ -10,6 +10,8 @@ const assign = require("./Assign");
 const next = require("./Next");
 const previous = require("./Previous");
 const today = require("./TodayBox");
+const changeTime = require("./ChangeTime");
+const changeDirection = require("./ChangeDirection");
 
 /**
  * @typedef {Object} Command
@@ -27,7 +29,22 @@ const today = require("./TodayBox");
  * List of commands
  * @type {Command[]}
  */
-const Commands = [ping, info, hi, test, help, addToBox, getListUserBox, removeFromBox, assign, next, previous, today];
+const Commands = [
+  ping,
+  info,
+  hi,
+  test,
+  help,
+  addToBox,
+  getListUserBox,
+  removeFromBox,
+  assign,
+  next,
+  previous,
+  today,
+  changeTime,
+  changeDirection,
+];
 
 // If one command does not have either a cmd or a regex, it will not be added to the list of commands and raise an error
 Commands.forEach((cmd) => {

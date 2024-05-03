@@ -45,7 +45,11 @@
 - [x] Implement the `Assign` command to assign a specific user to interact with the box
 - [x] Implement the `Today` command to show the user able to interact with the box today
 - [ ] Implement the `ChangeTime` command to change the time of the announcement of the box
+- - [x] Implement the UI to change the time of the announcement of the box
+- - [ ] Implement the `ChangeTime` command to change the time of the announcement of the box
 - [ ] Implement the `ChangeDirection` command to change the direction of the distribution of the box (chance the ASC/DESC in the dynamic configuration)
+- [x] Implement the UI to change the direction of the distribution of the box (chance the ASC/DESC in the dynamic config)
+- [ ] Implement the `ChangeDirection` command to change the direction of the distribution of the box (chance the ASC/DESC in the dynamic config)
 - [ ] Implement the Announcement feature to announce the next user able to interact with the box every working day at a specific time
 
 ## Documentation
@@ -75,6 +79,7 @@
 
 - [Webex API Documentation](https://developer.webex.com/docs/creating-a-chatbot-with-the-node-bot-framework)
 - [Webex Framework Documentation](https://github.com/WebexCommunity/webex-node-bot-framework?tab=readme-ov-file#event_mentioned)
+- [Card Designer](https://adaptivecards.io/designer)
 - [Discord Embeds Documentation](https://discordjs.guide/popular-topics/embeds.html#embed-preview) - For my own EmbedBuilder implementation for the Webex API
 - [Regex101](https://regex101.com/)
 - [Emojipedia](https://emojipedia.org)
