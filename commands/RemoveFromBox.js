@@ -1,5 +1,6 @@
 const { getUser } = require("../services/User/UserServices");
 const UserServices = require("../services/User/UserServices");
+const Utils = require("../utils/Utils");
 
 /** @type {import("./Commands").Command} */
 const removeFromBox = {
@@ -10,32 +11,14 @@ const removeFromBox = {
   priority: 100,
   /**
    * @param {Bot} bot
-   * @param {Trigger} trigger
+   * @param {string[]} args
    */
-  handler: async (bot, trigger) => {
-    // Get what's after the command
-    const args = trigger.text.split(" ").slice(1);
+  handler: async (bot, args) => {
     if (args.length <= 1) return bot.say("❌ | Il faut au moins un argument !");
 
     const firstName = args[1];
 
-    // Get all the members in the room
-    const members = await bot.webex.memberships.list({ roomId: bot.room.id }).then((memberships) => {
-      return memberships.items.map((membership) => {
-        return {
-          personId: membership.personId,
-          personDisplayName: membership.personDisplayName,
-        };
-      });
-    });
-
-    // Find the member in the room
-    let member = members.find((member) => {
-      let splittedName = member.personDisplayName.split(", ");
-      if (splittedName.length < 2) return false;
-
-      return member.personDisplayName.split(", ")[1].localeCompare(firstName, undefined, { sensitivity: "base" }) == 0;
-    });
+    let member = await Utils.getMemberByName(bot, firstName);
 
     if (!member) return bot.say("❌ | Utilisateur non trouvé !");
 
@@ -50,7 +33,10 @@ const removeFromBox = {
 
     UserServices.deleteUser(user.id);
 
-    bot.say(`✅ | ${user.firstName} ${user.lastName} a bien été retiré à la liste pour la boite commune !`);
+    bot.say(
+      "markdown",
+      `✅ | **${user.firstName} ${user.lastName}** a bien été retiré à la liste pour la boite commune !`
+    );
   },
 };
 

@@ -1,4 +1,4 @@
-const EmbedBuilder = require("../Embed");
+const EmbedBuilder = require("../utils/Embed");
 
 /** @type {import("./Commands").Command} */
 const test = {
@@ -10,9 +10,8 @@ const test = {
   priority: 0,
   /**
    * @param {Bot} bot
-   * @param {Trigger} trigger
    */
-  handler: (bot, trigger) => {
+  handler: (bot) => {
     const embed = new EmbedBuilder()
       .setDescription("This is a test")
       .addListElements([

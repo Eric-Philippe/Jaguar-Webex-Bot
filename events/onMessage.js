@@ -33,7 +33,8 @@ const onMessage = function (framework) {
     }
 
     try {
-      cmd.handler(bot, trigger);
+      const args = trigger.text.split(" ").slice(1);
+      cmd.handler(bot, trigger, args);
     } catch (err) {
       console.error(err);
       bot.say("Une erreur est survenue lors de l'exécution de la commande.");

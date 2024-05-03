@@ -32,7 +32,7 @@ const hi = {
     const randomAnswer = HI_ANSWERS[Math.floor(Math.random() * HI_ANSWERS.length)];
     const randomEmote = HI_EMOTES[Math.floor(Math.random() * HI_EMOTES.length)];
 
-    bot.say(`${randomEmote} ${randomAnswer} ${trigger.person.displayName} !`);
+    bot.say("markdown", `${randomEmote} ${randomAnswer} **${trigger.person.displayName}** !`);
   },
 };
 

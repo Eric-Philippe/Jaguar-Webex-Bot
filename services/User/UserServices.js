@@ -88,6 +88,18 @@ module.exports = class UserServices {
   }
 
   /**
+   * Remove every pointed user
+   * @returns {Promise<void>}
+   */
+  static async removePointedUsers() {
+    return new Promise((res, rej) => {
+      db.run(`UPDATE users SET pointed = 0`, (err) => {
+        return err ? rej(err) : res();
+      });
+    });
+  }
+
+  /**
    * Get the pointed user
    * @returns {Promise<User>}
    */

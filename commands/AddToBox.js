@@ -1,4 +1,5 @@
 const { getUser, createUser } = require("../services/User/UserServices");
+const Utils = require("../utils/Utils");
 
 /** @type {import("./Commands").Command} */
 const addToBox = {
@@ -10,24 +11,15 @@ const addToBox = {
   /**
    * @param {Bot} bot
    * @param {Trigger} trigger
+   * @param {string[]} args
    */
-  handler: async (bot, trigger) => {
-    // Get what's after the command
-    const args = trigger.text.split(" ").slice(1);
+  handler: async (bot, trigger, args) => {
     if (args.length <= 1) return bot.say("❌ | Il faut au moins un argument !");
 
     const firstName = args[1];
 
     // Get all the members in the room
-    const memberships = await bot.webex.memberships.list({
-      roomId: bot.room.id,
-    });
-    const members = memberships.items.map(({ personId, personDisplayName }) => ({ personId, personDisplayName }));
-
-    // Find the member in the room
-    let member = members.find((member) => {
-      return member.personDisplayName.toLowerCase().includes(firstName.toLowerCase());
-    });
+    let member = await Utils.getMemberByName(bot, firstName);
 
     if (!member) return bot.say("❌ | Utilisateur non trouvé !");
 
@@ -36,11 +28,17 @@ const addToBox = {
     // Get the user from the database
     let user = await getUser(member.personId);
     if (user)
-      return bot.say(`❌ | L'Utilisateur ${firstName} ${lastName} est déjà dans la liste pour la boite commune !`);
+      return bot.say(
+        "markdown",
+        `❌ | L'Utilisateur **${firstName} ${lastName}** est déjà dans la liste pour la boite commune !`
+      );
 
     user = await createUser(member.personId, firstName, lastName);
 
-    bot.say(`✅ | ${user.firstName} ${user.lastName} a bien été ajouté à la liste pour la boite commune !`);
+    bot.say(
+      "markdown",
+      `✅ | **${user.firstName} ${user.lastName}** a bien été ajouté à la liste pour la boite commune !`
+    );
   },
 };
 

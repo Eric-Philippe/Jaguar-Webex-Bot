@@ -1,4 +1,4 @@
-const EmbedBuilder = require("../Embed");
+const EmbedBuilder = require("../utils/Embed");
 const { getPointedUser } = require("../services/User/UserServices");
 
 /** @type {import("./Commands").Command} */
@@ -10,9 +10,8 @@ const getCurrentBox = {
   priority: 100,
   /**
    * @param {Bot} bot
-   * @param {Trigger} trigger
    */
-  handler: async (bot, trigger) => {
+  handler: async (bot) => {
     const user = await getPointedUser();
     if (user ?? true) return bot.say("❌ | Aucun utilisateur n'est assigné à la liste de la boite commune !");
 

@@ -1,4 +1,4 @@
-const EmbedBuilder = require("../Embed");
+const EmbedBuilder = require("../utils/Embed");
 
 /** @type {import("./Commands").Command} */
 const help = {

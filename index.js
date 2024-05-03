@@ -7,7 +7,7 @@ var bodyParser = require("body-parser");
 /** @CLASSES_AND_METHODS */
 const { DEV, DEBUG, FULL_CONFIG, PORT } = require("./config/config");
 const { closeDB } = require("./Database");
-const LoggerInstance = require("./Logger");
+const LoggerInstance = require("./utils/Logger");
 const onDbReady = require("./events/onDbReady");
 const subscribeEvents = require("./events/Events");
 

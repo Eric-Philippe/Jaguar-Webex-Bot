@@ -8,9 +8,8 @@ const ping = {
   priority: 0,
   /**
    * @param {Bot} bot
-   * @param {Trigger} trigger
    */
-  handler: (bot, trigger) => {
+  handler: (bot) => {
     bot.say("markdown", "🏓 Pong 🏓");
   },
 };

@@ -2,7 +2,7 @@ const sqlite3 = require("sqlite3").verbose();
 
 const { DEV } = require("./config/config");
 
-const LoggerInstance = require("./Logger");
+const LoggerInstance = require("./utils/Logger");
 
 // Connect to the database
 const db = new sqlite3.Database("database.db", (err) => {

@@ -41,7 +41,7 @@
 - [x] Implement the `BoxList` command to show all the users able to interact with the box
 - [ ] Implement the `Next` command to set the next user able to interact with the box
 - [ ] Implement the `Previous` command to set the previous user able to interact with the box
-- [ ] Implement the `Assign` command to assign a specific user to interact with the box
+- [x] Implement the `Assign` command to assign a specific user to interact with the box
 - [ ] Implement the `ChangeTime` command to change the time of the announcement of the box
 - [ ] Implement the `ChangeDirection` command to change the direction of the distribution of the box (chance the ASC/DESC in the dynamic configuration)
 - [ ] Implement the Announcement feature to announce the next user able to interact with the box every working day at a specific time

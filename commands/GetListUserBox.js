@@ -1,4 +1,4 @@
-const EmbedBuilder = require("../Embed");
+const EmbedBuilder = require("../utils/Embed");
 const { getUsers } = require("../services/User/UserServices");
 
 /** @type {import("./Commands").Command} */
@@ -10,9 +10,8 @@ const getListUserBox = {
   priority: 100,
   /**
    * @param {Bot} bot
-   * @param {Trigger} trigger
    */
-  handler: async (bot, trigger) => {
+  handler: async (bot) => {
     const users = await getUsers();
     if (users.length === 0) return bot.say("❌ | Aucun utilisateur dans la liste de la boite commune !");
     const keyValues = users.map((user) => {
