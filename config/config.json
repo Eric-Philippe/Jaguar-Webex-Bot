@@ -1,6 +1,6 @@
 {
   "CONFIG": {
-    "ORDER": "DESC",
+    "ORDER": "ASC",
     "ANNOUNCEMENT_TIME": "09:00"
   }
 }

@@ -42,4 +42,7 @@ jspm_packages
 #Environment Secrets
 .env
 
+# Tunneling
+ngrok.yml
+
 .vscode

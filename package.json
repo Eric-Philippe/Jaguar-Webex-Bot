@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node --use_strict --no-deprecation index.js",
-    "install": "npm install",
+    "build": "npm install",
     "dev": "nodemon index.js"
   },
   "repository": {
@@ -17,7 +17,7 @@
     "Webex",
     "webex-bot-framework"
   ],
-  "author": "Phil Bellanti",
+  "author": "Eric PHILIPPE",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Eric-Philippe/Jaguar-Webex-Bot/issues"

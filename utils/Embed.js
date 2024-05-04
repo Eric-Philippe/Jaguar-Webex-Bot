@@ -67,10 +67,22 @@ module.exports = class EmbedBuilder {
    * @param {string} description
    * @returns
    */
-  setDescription(description) {
+  addDescription(description) {
     let descriptionItem = { ...DESCRIPTION_ITEM_TEMPLATE };
     descriptionItem.text = description;
     this.#setOnBody(descriptionItem);
+    return this;
+  }
+
+  /**
+   * Set the subtitle of the embed
+   * @param {string} subtitle
+   * @returns
+   */
+  setSubtitle(subtitle) {
+    let subtitleItem = { ...SUBTITLE_ITEM_TEMPLATE };
+    subtitleItem.text = subtitle;
+    this.#setOnBody(subtitleItem);
     return this;
   }
 
@@ -142,6 +154,13 @@ module.exports = class EmbedBuilder {
 };
 
 const TITLE_ITEM_TEMPLATE = {
+  type: "TextBlock",
+  text: "",
+  weight: "bolder",
+  size: "extraLarge",
+};
+
+const SUBTITLE_ITEM_TEMPLATE = {
   type: "TextBlock",
   text: "",
   weight: "bolder",

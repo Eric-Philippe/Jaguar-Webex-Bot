@@ -16,13 +16,14 @@ const HI_ANSWERS = [
 ];
 const HI_EMOTES = ["✨", "🤩", "", "🌟", "🌝", "🙂", "👀"];
 
-/** @type {import("./Commands").Command} */
+/** @type {import("../Commands").Command} */
 const hi = {
   name: "hi",
   emote: "👋",
   regex: /hi|salut|hello|bonjour/i,
   cmd: "hi",
   description: "Saluer le bot.",
+  usage: "<@Jaguar hi>\n\n**Exemple:**\n<@Jaguar hi> -> Saluer le bot.",
   priority: 0,
   /**
    * @param {Bot} bot

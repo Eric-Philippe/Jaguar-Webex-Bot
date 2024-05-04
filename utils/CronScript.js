@@ -1,5 +1,6 @@
 const { CronJob } = require("cron");
 const Framework = require("webex-node-bot-framework/lib/framework");
+const LoggerInstance = require("./Logger");
 
 /**
  * @class
@@ -32,7 +33,11 @@ class CronScript {
     let cron = new CronJob(
       crontime,
       function () {
-        onTick(framework);
+        try {
+          onTick(framework);
+        } catch (e) {
+          LoggerInstance.logError(`CronScript Error on ${id}`, e);
+        }
       },
       null,
       true,

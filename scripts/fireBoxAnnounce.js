@@ -28,7 +28,7 @@ const getScriptBoxAnnouncement = () => {
 
       const embed = new EmbedBuilder()
         .setTitle("📧 | Annonce de la boîte commune :")
-        .setDescription(`${next.firstName} ${next.lastName.toUpperCase()} s'occupe de la boîte commune aujourd'hui !`);
+        .addDescription(`${next.firstName} ${next.lastName.toUpperCase()} s'occupe de la boîte commune aujourd'hui !`);
 
       bot.sendCard(embed, "Boîte Commune Card");
     },

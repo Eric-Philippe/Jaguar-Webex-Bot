@@ -7,6 +7,7 @@ const test = {
   alias: "t",
   cmd: "test",
   description: "Just me minding my own business",
+  usage: `<@Jaguar test>\n\n**Exemple:**\n<@Jaguar test> - Just me minding my own business`,
   priority: 0,
   /**
    * @param {Bot} bot

@@ -1,7 +1,8 @@
-const configInstance = require("../config/CustomConfig");
-const { restartCronScripts } = require("../scripts/Scripts");
-const ActionListeners = require("../utils/ActionListener");
-const LoggerInstance = require("../utils/Logger");
+const configInstance = require("../../config/CustomConfig");
+const { restartCronScripts } = require("../../scripts/Scripts");
+const ActionListeners = require("../../utils/ActionListener");
+const LoggerInstance = require("../../utils/Logger");
+const commandGroup = require("../GroupCommands/GroupCommand").SUPPORT_LIST_CATEGORY;
 
 const EMBED_JSON_TEMPLATE = {
   $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -37,12 +38,14 @@ const EMBED_JSON_TEMPLATE = {
   ],
 };
 
-/** @type {import("./Commands").Command} */
-const changeTime = {
-  name: "changeTime",
+/** @type {import("../Commands").Command} */
+const time = {
+  name: "time",
+  group: commandGroup,
   emote: "🕒",
-  cmd: "changeTime",
-  description: "Changer l'heure de l'annonce",
+  cmd: "time",
+  description: "Changer l'heure de l'annonce journalière",
+  usage: `<@Jaguar ${commandGroup.cmdName} time> \n\n**Exemple:** *@Jaguar ${commandGroup.cmdName} time* - Ouvre la panel de changement de l'heure de l'annonce. \n\nCette commande permet de changer l'heure à laquelle le bot annonce le prochain utilisateur à s'occuper de la boîte commune.`,
   priority: 100,
   /**
    * @param {Bot} bot
@@ -67,4 +70,4 @@ const changeTime = {
   },
 };
 
-module.exports = changeTime;
+module.exports = time;

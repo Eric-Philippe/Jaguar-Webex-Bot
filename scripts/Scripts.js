@@ -25,6 +25,9 @@ const createCronScripts = (framework) => {
   });
 };
 
+/**
+ * Restart the cron scripts
+ */
 const restartCronScripts = () => {
   const Scripts = getScripts();
 

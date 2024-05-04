@@ -1,3 +1,7 @@
+const { usage } = require("./Help");
+
+const commandGroup = require("../GroupCommands/GroupCommand").SUPPORT_LIST_CATEGORY;
+
 const cardJSON = {
   $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
   type: "AdaptiveCard",
@@ -46,6 +50,7 @@ const info = {
   alias: "i",
   cmd: "info",
   description: "Dessiner une carte à votre propos !",
+  usage: `<@Jaguar info>\n\n**Exemple:**\n<@Jaguar info> - Répond une carte à votre mail et votre avatar !`,
   priority: 0,
   /**
    * @param {Bot} bot

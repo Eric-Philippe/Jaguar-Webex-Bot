@@ -1,4 +1,6 @@
 const Commands = require("../commands/Commands");
+const { GroupCommands } = require("../commands/GroupCommands/GroupCommand");
+const Messages = require("../utils/Messages");
 
 // Change Jaguar to your bot's name
 const MENTION_REGEX = /((webexteams:\/\/im?(.*)\s)|(Jaguar\s))(.*)/;
@@ -17,23 +19,43 @@ const onMessage = function (framework) {
    */
   framework.hears(MENTION_REGEX, (bot, trigger) => {
     if (trigger.args.length <= 1) return;
-    const command = trigger.args.slice(1).join(" ");
+
+    // We remove the first element of the array which is the full match
+    const args = trigger.args.slice(1);
+
+    // Declare the supposed command passed by the user
+    const commandGroup = args[0];
+    let availableCommands = Commands.filter((cmd) => !cmd.group);
+    let command = args[0];
+
+    // If we can find the command group
+    const group = GroupCommands.find(
+      (g) =>
+        g.cmdName.toLowerCase() === commandGroup.toLowerCase() || g.alias.toLowerCase() === commandGroup.toLowerCase()
+    );
+    if (group) {
+      // We setup the available commands to the commands of the group
+      command = args[1];
+      availableCommands = Commands.filter((cmd) => cmd.group && cmd.group.title === group.title);
+    }
 
     // All the commands are already sorted by priority
     // If the user enters a command that can be matched by multiple commands, the one with the highest priority will be executed
-    const cmd = Commands.find((c) => {
+    const cmd = availableCommands.find((c) => {
       if (c.cmd && c.cmd.toLowerCase() === command.toLowerCase()) return c;
       if (c.alias && c.alias.toLowerCase() === command.toLowerCase()) return c;
       if (c.regex && c.regex.test(command)) return c;
     });
 
     if (!cmd) {
-      bot.say("Je ne comprends pas cette commande.");
-      return;
+      return Messages.sendInfo(
+        bot,
+        `La commande ${command} n'existe pas.\nConsultez la liste des commandes avec @Jaguar help`
+      );
     }
 
     try {
-      const args = trigger.text.split(" ").slice(1);
+      const args = group ? trigger.text.split(" ").slice(2) : trigger.text.split(" ").slice(1);
       cmd.handler(bot, trigger, args);
     } catch (err) {
       console.error(err);

@@ -1,6 +1,7 @@
-const configInstance = require("../config/CustomConfig");
-const ActionListeners = require("../utils/ActionListener");
-const LoggerInstance = require("../utils/Logger");
+const configInstance = require("../../config/CustomConfig");
+const ActionListeners = require("../../utils/ActionListener");
+const LoggerInstance = require("../../utils/Logger");
+const commandGroup = require("../GroupCommands/GroupCommand").SUPPORT_LIST_CATEGORY;
 
 const EMBED_JSON_TEMPLATE = {
   $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -46,12 +47,14 @@ const EMBED_JSON_TEMPLATE = {
   ],
 };
 
-/** @type {import("./Commands").Command} */
-const changeDirection = {
-  name: "changeDirection",
-  emote: "🕒",
-  cmd: "changeDirection",
+/** @type {import("../Commands").Command} */
+const direction = {
+  name: "direction",
+  group: commandGroup,
+  emote: "🔄",
+  cmd: "direction",
   description: "Changer la direction du parcours de la liste de la boite",
+  usage: `<@Jaguar ${commandGroup.cmdName} direction>\n\n**Exemple:**\n<@Jaguar ${commandGroup.cmdName} direction> - Ouvre la panel de changement de la direction du parcours de la liste de la boite commune. \nCela traduit de quelle manière, parmi tous les noms de la liste, le bot doit les parcourir chaque jour.`,
   priority: 100,
   /**
    * @param {Bot} bot
@@ -79,4 +82,4 @@ const changeDirection = {
   },
 };
 
-module.exports = changeDirection;
+module.exports = direction;

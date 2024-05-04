@@ -25,6 +25,8 @@
 - [x] Implement an EmbedBuilder class from the Card Json structure from the Webex API
 - [x] Implement an Submit.Action Listener to handle the actions from the Cards easily `ActionListener.js`
 - [x] Implement a Cron Script Handler to be able to fill the bot with scripts to run at a specific time
+- [x] Implement a Message Sender to centralize the sending of messages
+- [x] Implement a Group Command system to be able to group commands in a single command
 
 ## Features
 
@@ -32,7 +34,7 @@
 - [x] Implement the `Hi` command for learning more about the basic message answering
 - [x] Implement the `Info` command to learning more about Cards from the Webex API
 - [x] Implement the `Help` command to show the available commands
-- [ ] Implement a deeper `Help <command>` command to show the help for a specific command
+- [x] Implement a deeper `Help <command>` command to show the help for a specific command
 
 ### Common Box Features
 
@@ -60,9 +62,9 @@
 ## Documentation
 
 - [x] Create the README.md file
-- [ ] Write the README.md file with the necessary information
-- [ ] Add an installation guide
-- [ ] Comment all the code
+- [x] Write the README.md file with the necessary information
+- [x] Add an installation guide
+- [x] Comment all the code
 
 ## Testing
 
@@ -77,8 +79,8 @@
 
 - [x] Comment all the code 1
 - [x] Clean the code 1
-- [ ] Comment all the code 2
-- [ ] Clean the code 2
+- [x] Comment all the code 2
+- [x] Clean the code 2
 
 ## References and Links
 
