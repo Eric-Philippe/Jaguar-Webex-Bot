@@ -13,7 +13,7 @@ const getScriptBoxAnnouncement = () => {
   const fireBoxAnnounce = {
     id: BOX_ANNOUNCE_SCRIPT_ID,
     crontime: `0 ${minute} ${hour} * * MON-FRI`, // Every weekday at the specified time
-    //crontime: "* * * * * *", // Every second for testing purposes
+    //crontime: "*/5 * * * * *", // Every second for testing purposes
     onTick: async (framework) => {
       if (Utils.isTodayABankHoliday()) return;
 

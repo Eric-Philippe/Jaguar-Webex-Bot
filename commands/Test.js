@@ -11,15 +11,9 @@ const test = {
   /**
    * @param {Bot} bot
    */
-  handler: (bot) => {
-    const embed = new EmbedBuilder()
-      .setDescription("This is a test")
-      .addListElements([
-        { key: "Key 1", value: "Value 1" },
-        { key: "Key 2", value: "Value 2" },
-      ])
-      .addLinkButton("Link", "https://google.com");
-    bot.sendCard(embed.toJSON(), "adaptiveCard");
+  handler: (bot, trigger) => {
+    console.log(bot);
+    console.log(trigger);
   },
 };
 

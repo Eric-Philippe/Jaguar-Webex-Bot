@@ -6,7 +6,7 @@ const { DEV } = require("../config/config");
  */
 const onDbReady = async function () {
   await createTable();
-  if (DEV) console.log("Database is ready.");
+  if (DEV) console.log(`%c 💾 Database is connected and ready to use.`, "color: #00ff00");
 };
 
 module.exports = onDbReady;

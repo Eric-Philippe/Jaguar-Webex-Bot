@@ -23,12 +23,18 @@ var framework = new framework(FULL_CONFIG);
 framework.start();
 CronScripts.setFramework(framework);
 
-console.log(`%c 🤖 Starting framework, please wait...`, "color: #eb4034");
+console.log(`%c 🤖 Starting framework, please wait...`, "color: #f8c427");
+console.log(
+  `%c 🤖 Framework Configuration : 💻 DEV: ${DEV}, 📺 DEBUG: ${DEBUG}, 📡 Listening on port: ${PORT}`,
+  "color: #f8c427"
+);
 
 framework.on("initialized", async () => {
   await onDbReady();
 
-  if (DEV) console.log(`%c 🤖 framework is all fired up! [Press CTRL-C to quit]`, "color: #eb4034");
+  console.info(`%c 🤖 Framework connected on ${framework.person.displayName}`, "color: #00ff00");
+
+  if (DEV) console.log(`%c 🤖 framework is all fired up! [Press CTRL-C to quit]`, "color: #00ff00");
   else LoggerInstance.log("Framework initialized successfully !");
 
   subscribeEvents(framework);

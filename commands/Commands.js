@@ -33,7 +33,6 @@ const Commands = [
   ping,
   info,
   hi,
-  test,
   help,
   addToBox,
   getListUserBox,

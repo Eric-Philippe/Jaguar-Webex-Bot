@@ -4,7 +4,7 @@
   "description": "Starter template for creating a Webex Teams bot",
   "main": "index.js",
   "scripts": {
-    "start": "node --use_strict index.js",
+    "start": "node --use_strict --no-deprecation index.js",
     "install": "npm install",
     "dev": "nodemon index.js"
   },

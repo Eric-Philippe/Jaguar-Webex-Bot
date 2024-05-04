@@ -16,7 +16,6 @@ class CronScript {
    */
   setFramework(framework) {
     this.framework = framework;
-    console.log("Framework set");
   }
 
   /**
