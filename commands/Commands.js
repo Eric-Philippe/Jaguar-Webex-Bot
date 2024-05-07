@@ -25,12 +25,13 @@ const remove = require("./supportlist/Remove");
 const today = require("./supportlist/Today");
 const time = require("./supportlist/time");
 const direction = require("./supportlist/direction");
+const test = require("./misc/Test");
 
 /**
  * List of commands
  * @type {Command[]}
  */
-const Commands = [ping, info, hi, help, add, list, remove, assign, next, previous, today, time, direction];
+const Commands = [ping, info, hi, help, test, add, list, remove, assign, next, previous, today, time, direction];
 
 // If one command does not have either a cmd or a regex, it will not be added to the list of commands and raise an error
 Commands.forEach((cmd) => {
