@@ -53,8 +53,12 @@ const generalHelp = (bot, trigger) => {
   groupCommands.unshift(null);
 
   groupCommands.forEach((group) => {
-    if (group) embed.setSubtitle(`**${group.emote} ${group.title}**`);
-    else embed.setSubtitle(`**📘 Commandes générales**`);
+    if (group) {
+      embed.setSubtitle(`**${group.emote} ${group.title}**`);
+      embed.addDescription(
+        `Lancer une commande avec <@Jaguar ${group.cmdName} [commande]> ou <@Jaguar ${group.alias} [commande]>\n\n`
+      );
+    } else embed.setSubtitle(`**📘 Commandes générales**`);
 
     const commands = group ? Commands.filter((cmd) => cmd.group === group) : Commands.filter((cmd) => !cmd.group);
     const keyValues = commands.map((cmd) => {
