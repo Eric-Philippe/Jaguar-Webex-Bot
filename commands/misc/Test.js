@@ -1,5 +1,3 @@
-const EmbedBuilder = require("../utils/Embed");
-
 /** @type {import("./Commands").Command} */
 const test = {
   name: "test",
