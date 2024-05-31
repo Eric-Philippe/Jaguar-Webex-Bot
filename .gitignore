@@ -48,3 +48,5 @@ ngrok.yml
 .vscode
 
 database.db
+config.json
+Logs.log
