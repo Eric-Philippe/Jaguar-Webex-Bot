@@ -15,9 +15,10 @@ const remove = {
   priority: 100,
   /**
    * @param {Bot} bot
+   * @param {Trigger} trigger
    * @param {string[]} args
    */
-  handler: async (bot, args) => {
+  handler: async (bot, trigger, args) => {
     if (args.length <= 1)
       return Messages.sendError(bot, "Merci de spécifier le prénom de l'utilisateur à retirer de la boite commune !");
 
