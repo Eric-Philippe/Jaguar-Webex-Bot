@@ -28,7 +28,24 @@ const createTable = () => {
           else {
             // Uncomment this block to make any initial inserts / changes to the database
             // db.run(
-            //   `INSERT INTO users (id, firstName, lastName) VALUES ('1', 'Éric', 'PHILIPPE')`,
+            //   `INSERT INTO users (id, firstName, lastName) VALUES ('2', 'John', 'DOE')`,
+
+            //   (err) => {
+            //     return err ? rej(err) : res();
+            //   }
+            // );
+
+            // db.run(
+            //   `INSERT INTO users (id, firstName, lastName) VALUES ('3', 'Jane', 'DOE')`,
+
+            //   (err) => {
+            //     return err ? rej(err) : res();
+            //   }
+            // );
+
+            // db.run(
+            //   `INSERT INTO users (id, firstName, lastName) VALUES ('4', 'Foo', 'BAR')`,
+
             //   (err) => {
             //     return err ? rej(err) : res();
             //   }
