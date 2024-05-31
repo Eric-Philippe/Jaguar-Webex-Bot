@@ -49,3 +49,5 @@ ngrok.yml
 
 database.db
 config.json
+Error.log
+Logs.log
