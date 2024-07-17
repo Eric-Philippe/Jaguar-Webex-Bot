@@ -1,5 +1,4 @@
 node_modules
-database.db
 LICENSE
-TODO.md
+*.md
 .vscode

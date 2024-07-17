@@ -13,5 +13,15 @@ RUN npm run build
 # Copiez le reste des fichiers de l'application
 COPY . .
 
-# Démarrez l'application
-CMD ["npm", "start"]
+# Copiez le fichier .env
+COPY .env .env
+
+# Téléchargez et installez ngrok
+RUN wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz && \
+    tar -xvzf ngrok-v3-stable-linux-amd64.tgz && \
+    mv ngrok /usr/local/bin/ngrok
+
+# Configurez ngrok avec le token
+RUN ngrok config add-authtoken $(grep NGROK_AUTHTOKEN .env | cut -d '=' -f2)    
+
+CMD ["sh", "-c", "ngrok http --domain=promptly-fast-hedgehog.ngrok-free.app 3000 & npm start"]
