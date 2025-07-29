@@ -19,8 +19,6 @@ const today = {
   handler: async (bot) => {
     const members = await Utils.getMemberOrderedList();
 
-    console.log("🔵 Members for today:", members);
-
     const embed = new EmbedBuilder()
       .setTitle("📧 | Boite commune")
       .addDescription(

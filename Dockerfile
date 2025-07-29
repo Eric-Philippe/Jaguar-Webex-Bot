@@ -1,25 +1,44 @@
-# Use the latest Node.js image as the base image
-FROM node:latest
+# Build stage
+FROM node:20-alpine AS builder
 
-# Set the working directory inside the container
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy package.json and package-lock.json (if applicable) to install dependencies
+# Copy package files
 COPY package*.json ./
 
-# Install project dependencies
-RUN npm install
+# Install all dependencies (including dev dependencies for potential build steps)
+RUN npm ci --only=production && npm cache clean --force
 
-# Copy the rest of the application files
-COPY . .
+# Production stage
+FROM node:20-alpine AS production
 
-# Build the application
-RUN npm run build
+# Create non-root user for security
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S botuser -u 1001 -G nodejs
 
-# Download and install ngrok
-RUN wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz && \
-    tar -xvzf ngrok-v3-stable-linux-amd64.tgz && \
-    mv ngrok /usr/local/bin/ngrok
+WORKDIR /app
 
-# Command to configure ngrok and start the application when the container starts
-CMD ["sh", "-c", "ngrok config add-authtoken $(grep NGROK_AUTHTOKEN .env | cut -d '=' -f2) && ngrok http --domain=$(grep NGROK_DOMAIN .env | cut -d '=' -f2) 3000 & npm start"]
+# Copy node_modules from builder stage
+COPY --from=builder /app/node_modules ./node_modules
+
+# Copy application code
+COPY --chown=botuser:nodejs . .
+
+# Create necessary directories with proper permissions
+RUN mkdir -p Logs && \
+    chown -R botuser:nodejs Logs && \
+    chmod 755 Logs
+
+# Remove unnecessary files to reduce image size
+RUN rm -rf .git .gitignore README.md Dockerfile docker-compose.yml \
+    && rm -rf node_modules/*/README.md \
+    && rm -rf node_modules/*/CHANGELOG.md \
+    && rm -rf node_modules/*/.github \
+    && rm -rf node_modules/*/docs
+
+# Switch to non-root user
+USER botuser
+
+EXPOSE 3000
+
+CMD ["node", "index.js"]

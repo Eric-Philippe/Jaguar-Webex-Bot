@@ -49,7 +49,6 @@ module.exports = class Utils {
 
     // Get the current user taking care of the box
     let currentUser = users.find((user) => user.pointed === true);
-    console.log("currentUser", currentUser);
     if (!currentUser) currentUser = users[0];
 
     // Get the previous, current and next users

@@ -25,7 +25,7 @@ const remove = require("./supportlist/Remove");
 const today = require("./supportlist/Today");
 const time = require("./supportlist/time");
 const direction = require("./supportlist/direction");
-const absent = require("./supportlist/absent");
+const absent = require("./supportlist/Absent");
 const test = require("./misc/Test");
 
 /**

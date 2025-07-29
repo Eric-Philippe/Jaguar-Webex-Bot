@@ -1,4 +1,66 @@
+# Development files
 node_modules
-LICENSE
+npm-debug.log*
+.npm
+.nyc_output
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Documentation
+README.md
 *.md
-.vscode
+LICENSE
+
+# Logs
+Logs/
+*.log
+
+# Environment files (will be passed via docker-compose)
+.env*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Development dependencies
+.prettierrc*
+.eslintrc*
+tsconfig.json
+.editorconfig
+
+# Test files
+test/
+tests/
+__tests__/
+*.test.js
+*.spec.js
+
+# Coverage
+coverage/
+
+# Build artifacts
+dist/
+build/

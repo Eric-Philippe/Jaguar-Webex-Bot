@@ -43,6 +43,14 @@ Below is a list of the main features:
   - Change the direction of the distribution of the box
   - Announce the next user in the box every working day at a specific time (excluding bank holidays)
 
+## Quick run
+
+The whole app is dockerized, so you can easily run the bot with the following command:
+
+```bash
+docker run --name jaguar-webex-bot-container --env-file .env ghcr.io/eric-philippe/jaguar-webex-bot:latest-amd64
+```
+
 ## 📱 Technologies
 
 | Tech       | Version |
