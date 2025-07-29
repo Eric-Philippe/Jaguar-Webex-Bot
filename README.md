@@ -48,7 +48,7 @@ Below is a list of the main features:
 The whole app is dockerized, so you can easily run the bot with the following command:
 
 ```bash
-docker run --name jaguar-webex-bot-container --env-file .env ghcr.io/eric-philippe/jaguar-webex-bot:latest-amd64
+docker compose up --build
 ```
 
 ## 📱 Technologies
