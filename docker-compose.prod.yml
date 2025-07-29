@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  # Webex Bot Service
+  webex-bot:
+    image: ghcr.io/eric-philippe/jaguar-webex-bot:latest-amd64
+    container_name: bot-jaguar-webex
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./config/config.json:/app/config/config.json
+    networks:
+      - bot-network
+      - shared_backend
+
+  # Ngrok Service
+  ngrok:
+    image: ngrok/ngrok:3-alpine
+    container_name: bot-jaguar-ngrok
+    restart: unless-stopped
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    command:
+      - "http"
+      - "--domain=${NGROK_DOMAIN}"
+      - "webex-bot:3000"
+    networks:
+      - bot-network
+
+networks:
+  bot-network:
+    driver: bridge
+  shared_backend:
+    external: true
+    name: shared_backend
