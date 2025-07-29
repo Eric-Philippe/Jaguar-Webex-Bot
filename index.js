@@ -45,7 +45,7 @@ framework.on("log", (msg) => {
   if (DEBUG) console.log(msg);
 });
 
-//Server config & housekeeping
+// Server config & housekeeping
 // Health Check
 app.get("/", (req, res) => {
   res.send(`I'm alive.`);

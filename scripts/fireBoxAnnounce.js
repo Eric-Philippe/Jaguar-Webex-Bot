@@ -4,6 +4,7 @@ const Utils = require("../utils/Utils");
 const UserServices = require("../services/User/UserServices");
 const { MAIN_GROUPID } = require("../config/config");
 const { BOX_ANNOUNCE_SCRIPT_ID } = require("./ScriptsId");
+const { createNextPreviousListener } = require("../utils/ButtonsListener");
 
 const getScriptBoxAnnouncement = () => {
   const time = configInstance.getAnnoucementTime();
@@ -30,7 +31,12 @@ const getScriptBoxAnnouncement = () => {
         .setSubtitle("📧 | Annonce de la boîte commune :")
         .addDescription(`${next.firstName} ${next.lastName.toUpperCase()} s'occupe de la boîte commune aujourd'hui !`);
 
-      bot.sendCard(embed, "Boîte Commune Card");
+      embed.addSubmitButton("⏮️ Previous", { action: "sl_previous" });
+      embed.addSubmitButton("⏭️ Next", { action: "sl_next" });
+
+      const msg = await bot.sendCard(embed, "Boîte Commune Card");
+
+      createNextPreviousListener(msg.id);
     },
   };
 

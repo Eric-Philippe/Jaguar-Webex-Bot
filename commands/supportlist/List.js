@@ -20,14 +20,19 @@ const list = {
     const users = await getUsers();
     if (users.length === 0) return Messages.sendInfo(bot, "Il n'y a pas d'utilisateurs dans la boite commune !");
     const keyValues = users.map((user) => {
+      let status = "";
+      if (user.pointed) status += "🔵 ";
+      if (user.isAbsent) status += "🏖️ ";
+
       return {
         key: `👤 - ${user.firstName} ${user.lastName.toUpperCase()}`,
-        value: user.pointed ? "🔵" : "",
+        value: status,
       };
     });
 
     const embed = new EmbedBuilder()
       .setTitle("📦 | Liste des utilisateurs de la boite commune :")
+      .setFooter("🔵 = Utilisateur actuel | 🏖️ = Absent")
       .addListElements(keyValues);
 
     bot.sendCard(embed, "Liste des utilisateurs de la boite commune");

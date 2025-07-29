@@ -45,11 +45,11 @@ Below is a list of the main features:
 
 ## 📱 Technologies
 
-| Tech   | Version |
-| ------ | ------- |
-| Node   | 21.7.1  |
-| Webex  | 2.3.14  |
-| SQLite | 5.1.7   |
+| Tech       | Version |
+| ---------- | ------- |
+| Node       | 21.7.1  |
+| Webex      | 2.3.14  |
+| PostgreSQL | 8.11.3  |
 
 ## 🔗 Architecture
 
@@ -87,7 +87,11 @@ I created a Message Action listener that allows to listen to the actions from a 
 
 ### 💾 Database
 
-The bot, in order to keep the project as simple as possible, uses a SQLite database to store the data. The database is in the `Database.db` file, and serves the only table `Users` by the `services/UserServices.js` class.
+The bot uses PostgreSQL database to store the data. The database connection is configured in `.env` file for `Database.js` and serves the table `users` through the `services/UserServices.js` class.
+
+**Database Configuration:**
+
+- Database: jaguar
 
 #### User schema
 
@@ -98,7 +102,8 @@ CREATE TABLE IF NOT EXISTS users (
     id VARCHAR(255) PRIMARY KEY NOT NULL,
     firstName VARCHAR(60) NOT NULL,
     lastName VARCHAR(60) NOT NULL,
-    pointed BOOLEAN NOT NULL DEFAULT 0
+    pointed BOOLEAN NOT NULL DEFAULT FALSE,
+    is_absent BOOLEAN NOT NULL DEFAULT FALSE
 );
 ```
 
@@ -132,7 +137,7 @@ docker-compose up
 
 2. Sign up for nGrok, then connect and start it on your machine (save the port number and public web address): <https://ngrok.com/download>
 
-3. After installing ngrok, run it on your local machine to get a public ip address, eg `ngrok http 3000 --region=eu` or `ngrok http --domain=<your_domain>p 3000`
+3. After installing ngrok, run it on your local machine to get a public ip address, eg `ngrok http 3000 --region=eu` or `ngrok http --domain=<your_domain> 3000`
 
 4. Copy the ip address displayed in the ngrok window, ie: : <https://1234.eu.ngrok.io>
 

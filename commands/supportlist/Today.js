@@ -1,3 +1,4 @@
+const { createNextPreviousListener } = require("../../utils/ButtonsListener");
 const EmbedBuilder = require("../../utils/Embed");
 const Utils = require("../../utils/Utils");
 const commandGroup = require("../GroupCommands/GroupCommand").SUPPORT_LIST_CATEGORY;
@@ -18,6 +19,8 @@ const today = {
   handler: async (bot) => {
     const members = await Utils.getMemberOrderedList();
 
+    console.log("🔵 Members for today:", members);
+
     const embed = new EmbedBuilder()
       .setTitle("📧 | Boite commune")
       .addDescription(
@@ -25,7 +28,13 @@ const today = {
       )
       .setFooter("demain, ce sera au tour de **" + members.next.firstName + " " + members.next.lastName + "**");
 
-    bot.sendCard(embed, "Boite commune");
+    embed.addSubmitButton("⏮️ Previous", { action: "sl_previous" });
+    embed.addSubmitButton("⏭️ Next", { action: "sl_next" });
+
+    const msg = await bot.sendCard(embed, "Boite commune");
+
+    // Démarrer la récursion avec le premier message
+    createNextPreviousListener(msg.id);
   },
 };
 

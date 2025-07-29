@@ -7,32 +7,32 @@ module.exports = class Messages {
    * @param {Bot} bot
    * @returns {Promise<Message|undefined>}
    */
-  static send(bot, text, title = null) {
+  static async send(bot, text, title = null) {
     const embed = new EmbedBuilder();
 
     if (title) embed.setSubtitle(title);
     embed.addDescription(text).setFooter("🤖 - Jaguar Team - Webex Bot");
 
     try {
-      return bot.sendCard(embed, "Card Not Sent");
+      return await bot.sendCard(embed, "Card Not Sent");
     } catch (e) {
       console.log(e);
       return;
     }
   }
 
-  static sendSuccess(bot, text) {
+  static async sendSuccess(bot, text) {
     let description = "✅ | " + text;
-    this.send(bot, description, "📝 | Succès");
+    return await this.send(bot, description, "📝 | Succès");
   }
 
-  static sendError(bot, text) {
+  static async sendError(bot, text) {
     let description = "❌ | " + text;
-    this.send(bot, description, "🚫 | Erreur");
+    return await this.send(bot, description, "🚫 | Erreur");
   }
 
-  static sendInfo(bot, text) {
+  static async sendInfo(bot, text) {
     let description = "ℹ️ | " + text;
-    this.send(bot, description, "📝 | Information");
+    return await this.send(bot, description, "📝 | Information");
   }
 };

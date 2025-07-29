@@ -1,76 +1,109 @@
-const sqlite3 = require("sqlite3").verbose();
+const { Pool } = require("pg");
 
-const { DEV } = require("./config/config");
+const { DEV, DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD } = require("./config/config");
 
 const LoggerInstance = require("./utils/Logger");
 
-// Connect to the database
-const db = new sqlite3.Database("database.db", (err) => {
-  if (err) {
-    if (DEV) console.error("Error connecting to the database:", err.message);
-    else LoggerInstance.logError("Error connecting to the database:", err.message);
+// PostgreSQL
+const dbConfig = {
+  user: DB_USER,
+  host: DB_HOST,
+  database: DB_NAME,
+  password: DB_PASSWORD,
+  port: DB_PORT,
+  max: 20, // Maximum pool size
+  idleTimeoutMillis: 30000, // Idle timeout before closing
+  connectionTimeoutMillis: 2000, // Connection timeout
+};
+
+// Pool creation
+const pool = new Pool(dbConfig);
+
+// Error handling for the pool
+pool.on("error", (err) => {
+  const errorMessage = `Erreur inattendue du pool PostgreSQL: ${err.message}`;
+  if (DEV) {
+    console.error(errorMessage);
+  } else {
+    LoggerInstance.logError(errorMessage);
+  }
+});
+
+// Connection event
+pool.on("connect", () => {
+  if (DEV) {
+    console.log("✅ Nouvelle connexion PostgreSQL établie");
   }
 });
 
 const createTable = () => {
-  return new Promise((res, rej) => {
-    // Create a table
-    db.serialize(() => {
-      db.run(
-        `CREATE TABLE IF NOT EXISTS users (
-    id VARCHAR(255) PRIMARY KEY NOT NULL,
-    firstName VARCHAR(60) NOT NULL,
-    lastName VARCHAR(60) NOT NULL,
-    pointed BOOLEAN NOT NULL DEFAULT 0
-  )`,
-        (err) => {
-          if (err) return rej(err);
-          else {
-            // Uncomment this block to make any initial inserts / changes to the database
-            // db.run(
-            //   `INSERT INTO users (id, firstName, lastName) VALUES ('2', 'John', 'DOE')`,
+  return new Promise(async (res, rej) => {
+    const client = await pool.connect();
 
-            //   (err) => {
-            //     return err ? rej(err) : res();
-            //   }
-            // );
+    try {
+      // Create the 'users' table if it does not exist
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS users (
+          id VARCHAR(255) PRIMARY KEY NOT NULL,
+          firstName VARCHAR(60) NOT NULL,
+          lastName VARCHAR(60) NOT NULL,
+          pointed BOOLEAN NOT NULL DEFAULT FALSE,
+          is_absent BOOLEAN NOT NULL DEFAULT FALSE
+        )
+      `);
 
-            // db.run(
-            //   `INSERT INTO users (id, firstName, lastName) VALUES ('3', 'Jane', 'DOE')`,
+      if (DEV) {
+        console.log("✅ Table 'users' créée/vérifiée avec succès");
+      }
 
-            //   (err) => {
-            //     return err ? rej(err) : res();
-            //   }
-            // );
-
-            // db.run(
-            //   `INSERT INTO users (id, firstName, lastName) VALUES ('4', 'Foo', 'BAR')`,
-
-            //   (err) => {
-            //     return err ? rej(err) : res();
-            //   }
-            // );
-
-            return res();
-          }
-        }
-      );
-    });
-  });
-};
-
-const closeDB = () => {
-  db.close((err) => {
-    if (err) {
-      console.error("Error closing the database:", err.message);
-    } else {
-      console.log("Closed the database.");
+      res();
+    } catch (err) {
+      const errorMessage = `Erreur lors de la création de la table: ${err.message}`;
+      if (DEV) {
+        console.error(errorMessage);
+      } else {
+        LoggerInstance.logError(errorMessage);
+      }
+      rej(err);
+    } finally {
+      client.release();
     }
   });
 };
 
+const closeDB = async () => {
+  try {
+    await pool.end();
+    console.log("✅ Pool de connexions PostgreSQL fermé");
+  } catch (err) {
+    console.error("❌ Erreur lors de la fermeture du pool:", err.message);
+  }
+};
+
+// Fonction utilitaire pour exécuter des requêtes
+const query = async (text, params) => {
+  const client = await pool.connect();
+  try {
+    const result = await client.query(text, params);
+    return result;
+  } catch (err) {
+    const errorMessage = `Erreur lors de l'exécution de la requête: ${err.message}`;
+    if (DEV) {
+      console.error(errorMessage);
+      console.error("Requête:", text);
+      console.error("Paramètres:", params);
+    } else {
+      LoggerInstance.logError(errorMessage);
+    }
+    throw err;
+  } finally {
+    client.release();
+  }
+};
+
 module.exports = {
-  db,
+  pool,
+  query,
   createTable,
   closeDB,
 };

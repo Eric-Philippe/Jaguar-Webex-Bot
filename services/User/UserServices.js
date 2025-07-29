@@ -1,4 +1,4 @@
-const { db } = require("../../Database");
+const { query } = require("../../Database");
 const User = require("./User");
 
 module.exports = class UserServices {
@@ -10,12 +10,12 @@ module.exports = class UserServices {
    * @returns {Promise<User>} The created user
    */
   static async createUser(id, firstName, lastName) {
-    return new Promise((res, rej) => {
-      db.run(`INSERT INTO users (id, firstName, lastName) VALUES (?, ?, ?)`, [id, firstName, lastName], (err) => {
-        if (err) return rej(err);
-        else return res(new User(id, firstName, lastName));
-      });
-    });
+    try {
+      await query(`INSERT INTO users (id, firstName, lastName) VALUES ($1, $2, $3)`, [id, firstName, lastName]);
+      return new User(id, firstName, lastName);
+    } catch (error) {
+      throw new Error(`Erreur lors de la création de l'utilisateur: ${error.message}`);
+    }
   }
 
   /**
@@ -24,29 +24,31 @@ module.exports = class UserServices {
    * @returns {Promise<void>}
    */
   static async deleteUser(id) {
-    return new Promise((res, rej) => {
-      db.run(`DELETE FROM users WHERE id = ?`, [id], (err) => {
-        return err ? rej(err) : res();
-      });
-    });
+    try {
+      await query(`DELETE FROM users WHERE id = $1`, [id]);
+    } catch (error) {
+      throw new Error(`Erreur lors de la suppression de l'utilisateur: ${error.message}`);
+    }
   }
 
   /**
    * Get a user from the database
    * @param {string} id - The ID of the user
-   * @returns {Promise<User>} The user
+   * @returns {Promise<User|null>} The user
    */
   static async getUser(id) {
-    return new Promise((res, rej) => {
-      db.get(`SELECT * FROM users WHERE id = ?`, [id], (err, row) => {
-        if (err) return rej(err);
-        else {
-          if (!row) return res(null);
-          let user = new User(row.id, row.firstName, row.lastName, row.pointed);
-          return res(user);
-        }
-      });
-    });
+    try {
+      const result = await query(`SELECT * FROM users WHERE id = $1`, [id]);
+
+      if (result.rows.length === 0) {
+        return null;
+      }
+
+      const row = result.rows[0];
+      return new User(row.id, row.firstname, row.lastname, row.pointed, row.is_absent);
+    } catch (error) {
+      throw new Error(`Erreur lors de la récupération de l'utilisateur: ${error.message}`);
+    }
   }
 
   /**
@@ -54,24 +56,21 @@ module.exports = class UserServices {
    * @returns {Promise<User[]|null>} The users
    */
   static async getUsers() {
-    return new Promise((res, rej) => {
-      db.all(`SELECT * FROM users`, (err, rows) => {
-        if (err) return rej(err);
-        else {
-          if (rows.length === 0) return res(null);
-          let users = rows.map((row) => {
-            return new User(row.id, row.firstName, row.lastName, row.pointed);
-          });
+    try {
+      const result = await query(`SELECT * FROM users ORDER BY firstName ASC`);
 
-          // Sort them by first name
-          users.sort((a, b) => {
-            return a.firstName.localeCompare(b.firstName);
-          });
+      if (result.rows.length === 0) {
+        return null;
+      }
 
-          return res(users);
-        }
+      const users = result.rows.map((row) => {
+        return new User(row.id, row.firstname, row.lastname, row.pointed, row.is_absent);
       });
-    });
+
+      return users;
+    } catch (error) {
+      throw new Error(`Erreur lors de la récupération des utilisateurs: ${error.message}`);
+    }
   }
 
   /**
@@ -81,11 +80,11 @@ module.exports = class UserServices {
    * @returns {Promise<void>}
    */
   static async setPointed(id, pointed) {
-    return new Promise((res, rej) => {
-      db.run(`UPDATE users SET pointed = ? WHERE id = ?`, [pointed, id], (err) => {
-        return err ? rej(err) : res();
-      });
-    });
+    try {
+      await query(`UPDATE users SET pointed = $1 WHERE id = $2`, [pointed, id]);
+    } catch (error) {
+      throw new Error(`Erreur lors de la mise à jour du statut pointed: ${error.message}`);
+    }
   }
 
   /**
@@ -93,36 +92,82 @@ module.exports = class UserServices {
    * @returns {Promise<void>}
    */
   static async removePointedUsers() {
-    return new Promise((res, rej) => {
-      db.run(`UPDATE users SET pointed = 0`, (err) => {
-        return err ? rej(err) : res();
-      });
-    });
+    try {
+      await query(`UPDATE users SET pointed = FALSE`);
+    } catch (error) {
+      throw new Error(`Erreur lors de la suppression des utilisateurs pointés: ${error.message}`);
+    }
   }
 
   /**
    * Get the pointed user
-   * @returns {Promise<User>}
+   * @returns {Promise<User|null>}
    */
   static async getPointedUser() {
-    return new Promise((res, rej) => {
-      db.all(`SELECT * FROM users WHERE pointed = 1`, (err, rows) => {
-        if (err) return rej(err);
-        else {
-          if (rows.length === 0) return res(null);
+    try {
+      const result = await query(`SELECT * FROM users WHERE pointed = TRUE ORDER BY firstName ASC`);
 
-          let users = rows.map((row) => {
-            return new User(row.id, row.firstName, row.lastName, row.pointed);
-          });
+      if (result.rows.length === 0) {
+        return null;
+      }
 
-          // Sort them by first name
-          users.sort((a, b) => {
-            return a.firstName.localeCompare(b.firstName);
-          });
+      const row = result.rows[0];
+      return new User(row.id, row.firstname, row.lastname, row.pointed, row.is_absent);
+    } catch (error) {
+      throw new Error(`Erreur lors de la récupération de l'utilisateur pointé: ${error.message}`);
+    }
+  }
 
-          return res(users[0]);
-        }
+  /**
+   * Set a user as absent or not
+   * @param {string} id - The ID of the user
+   * @param {boolean} isAbsent - If the user is absent
+   * @returns {Promise<void>}
+   */
+  static async setAbsent(id, isAbsent) {
+    try {
+      await query(`UPDATE users SET is_absent = $1 WHERE id = $2`, [isAbsent, id]);
+    } catch (error) {
+      throw new Error(`Erreur lors de la mise à jour du statut d'absence: ${error.message}`);
+    }
+  }
+
+  /**
+   * Toggle the absence status of a user
+   * @param {string} id - The ID of the user
+   * @returns {Promise<void>}
+   */
+  static async toggleAbsent(id) {
+    try {
+      const user = await UserServices.getUser(id);
+      if (!user) {
+        throw new Error(`Utilisateur avec l'ID ${id} non trouvé`);
+      }
+      await UserServices.setAbsent(id, !user.isAbsent);
+    } catch (error) {
+      throw new Error(`Erreur lors de la bascule du statut d'absence: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get all non-absent users
+   * @returns {Promise<User[]|null>} The non-absent users
+   */
+  static async getNonAbsentUsers() {
+    try {
+      const result = await query(`SELECT * FROM users WHERE is_absent = FALSE ORDER BY firstName ASC`);
+
+      if (result.rows.length === 0) {
+        return null;
+      }
+
+      const users = result.rows.map((row) => {
+        return new User(row.id, row.firstname, row.lastname, row.pointed, row.is_absent);
       });
-    });
+
+      return users;
+    } catch (error) {
+      throw new Error(`Erreur lors de la récupération des utilisateurs non absents: ${error.message}`);
+    }
   }
 };

@@ -140,6 +140,19 @@ module.exports = class EmbedBuilder {
     return this;
   }
 
+  /**
+   * Add a submit button to the embed
+   * @param {string} title - The title of the button
+   * @param {Object} data - The data to submit with the button
+   */
+  addSubmitButton(title, data = {}) {
+    let button = { ...BUTTON_SUBMIT_TEMPLATE };
+    button.title = title;
+    button.data = data;
+    this.json.actions.push(button);
+    return this;
+  }
+
   #setOnHeader(jsonObj) {
     this.json.body[0].items.push(jsonObj);
   }
@@ -254,6 +267,12 @@ const BUTTON_URL_TEMPLATE = {
   type: "Action.OpenUrl",
   title: "BUTTON_TITLE_HERE",
   url: "BUTTON_URL_HERE",
+};
+
+const BUTTON_SUBMIT_TEMPLATE = {
+  type: "Action.Submit",
+  title: "BUTTON_TITLE_HERE",
+  data: {},
 };
 
 const FOOTER_TEMPLATE = {

@@ -32,6 +32,10 @@ module.exports = class Utils {
     let users = await UserServices.getUsers();
     if (users == null || users.length == 0) return { previous: null, current: null, next: null };
 
+    // Filter out absent users
+    users = users.filter((user) => !user.isAbsent);
+    if (users.length == 0) return { previous: null, current: null, next: null };
+
     const order = configInstance.getOrder();
 
     // Order the users by first name depending on the pre-defined order
@@ -44,7 +48,7 @@ module.exports = class Utils {
     });
 
     // Get the current user taking care of the box
-    let currentUser = users.find((user) => user.pointed === 1);
+    let currentUser = users.find((user) => user.pointed === true);
     console.log("currentUser", currentUser);
     if (!currentUser) currentUser = users[0];
 
