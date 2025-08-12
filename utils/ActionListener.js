@@ -1,6 +1,6 @@
 const LoggerInstance = require("./Logger");
 
-const TEN_MINUTES = 1000 * 60 * 10;
+const THREE_HOURS = 1000 * 60 * 60 * 3;
 
 /**
  * @typedef {Object} Listener
@@ -26,7 +26,7 @@ class ActionListener {
    * @param {number} max
    * @returns
    */
-  createNewListener(msgId, callback, time = TEN_MINUTES, max = 1) {
+  createNewListener(msgId, callback, time = THREE_HOURS, max = 1) {
     if (this.getListener(msgId)) return;
     const listener = {
       msgId: msgId,
