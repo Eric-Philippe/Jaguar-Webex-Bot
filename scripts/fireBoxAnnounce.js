@@ -6,6 +6,12 @@ const { MAIN_GROUPID } = require("../config/config");
 const { BOX_ANNOUNCE_SCRIPT_ID } = require("./ScriptsId");
 const { createNextPreviousListener } = require("../utils/ButtonsListener");
 
+const BIRTHDAY = [
+  { month: 4, day: 13, name: "Eric" }, // 13 May
+  { month: 4, day: 19, name: "Freddy" }, // 19 May
+  { month: 11, day: 11, name: "Liv" }, // 11 December
+];
+
 const getScriptBoxAnnouncement = () => {
   const time = configInstance.getAnnoucementTime();
   const [hour, minute] = time.split(":");
@@ -37,10 +43,24 @@ const getScriptBoxAnnouncement = () => {
       const msg = await bot.sendCard(embed, "Boîte Commune Card");
 
       createNextPreviousListener(msg.id);
+
+      greatBirthday(bot);
     },
   };
 
   return fireBoxAnnounce;
 };
+
+const greatBirthday = (bot) => {
+  const today = new Date();
+  const birthdayPerson = BIRTHDAY.find((b) => b.month === today.getMonth() && b.day === today.getDate());
+  if (birthdayPerson) {
+    const embed = new EmbedBuilder()
+      .setSubtitle("🎂 | Joyeux Anniversaire !")
+      .addDescription(`Aujourd'hui, c'est l'anniversaire de **${birthdayPerson.name}** ! 🎉🎈\n\n Joyeux anniversaire !!! 🥳`);
+
+    bot.sendCard(embed, "Joyeux Anniversaire Card");
+  }
+}
 
 exports.getScriptBoxAnnouncement = getScriptBoxAnnouncement;
